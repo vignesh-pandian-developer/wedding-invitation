@@ -1,0 +1,761 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap');
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Montserrat", sans-serif;
+    background: #f8f1e7;
+    color: #59453b;
+    overflow: hidden;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+
+/* =================================
+   DOOR
+================================= */
+
+.door-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient( circle, #80604f, #4b342b 60%, #261914);
+    color: white;
+}
+
+.door-intro {
+    width: 100%;
+    height: 100vh;
+    text-align: center;
+    padding-top: 30px;
+    position: relative;
+}
+
+.ornament {
+    color: #e1bd70;
+    font-size: 30px;
+}
+
+.invite-text {
+    font-size: 10px;
+    letter-spacing: 5px;
+    margin-top: 10px;
+}
+
+.door-intro h1 {
+    font-family: "Cormorant Garamond";
+    font-size: 70px;
+    font-weight: 400;
+    margin-top: 5px;
+}
+
+.door-names {
+    font-family: "Great Vibes";
+    color: #e7c783;
+    font-size: 50px;
+}
+
+.door-names span {
+    font-family: "Cormorant Garamond";
+    margin: 0 15px;
+}
+
+.door-date {
+    font-size: 11px;
+    letter-spacing: 5px;
+    margin-top: 10px;
+}
+
+.doors {
+    position: absolute;
+    width: min(520px, 85vw);
+    height: 60vh;
+    min-height: 390px;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.door {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient( 90deg, #4a3024, #79533e, #4b3024);
+    border: 5px solid #a77d48;
+    box-shadow: inset 0 0 0 7px rgba(255, 255, 255, .08), inset 0 0 30px rgba(0, 0, 0, .5);
+}
+
+.door-left {
+    left: 0;
+}
+
+.door-right {
+    right: 0;
+}
+
+.door span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 65px;
+    color: #d3a85d;
+}
+
+.open-invitation {
+    position: absolute;
+    z-index: 10;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 145px;
+    height: 145px;
+    border-radius: 50%;
+    background: rgba(50, 30, 23, .95);
+    color: white;
+    border: 1px solid #e1bd70;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.open-invitation strong {
+    font-family: "Cormorant Garamond";
+    font-size: 17px;
+}
+
+.open-invitation small {
+    font-size: 8px;
+    letter-spacing: 2px;
+}
+
+
+/* =================================
+   MAIN
+================================= */
+
+.invitation {
+    opacity: 0;
+    visibility: hidden;
+    transition: 1s;
+}
+
+.invitation.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+/* =================================
+   MUSIC
+================================= */
+
+.music-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 999;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid #b18a4a;
+    background: white;
+    font-size: 18px;
+}
+
+
+/* =================================
+   HERO
+================================= */
+
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient( rgba(248, 241, 231, .92), rgba(248, 241, 231, .95)), url("/images/couple-3.jpg") center / cover;
+}
+
+.hero-content {
+    max-width: 800px;
+    padding: 30px;
+}
+
+.small-title {
+    font-size: 10px;
+    letter-spacing: 5px;
+}
+
+.hero h2 {
+    font-family: "Cormorant Garamond";
+    font-size: clamp( 65px, 9vw, 110px);
+    line-height: .85;
+    font-weight: 400;
+    color: #3d2923;
+    margin-top: 25px;
+}
+
+.hero h2 span {
+    font-family: "Great Vibes";
+    color: #b18a4a;
+}
+
+.main-names {
+    margin-top: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    font-family: "Cormorant Garamond";
+    font-size: 32px;
+}
+
+.main-names b {
+    font-family: "Great Vibes";
+    color: #b18a4a;
+    font-size: 45px;
+}
+
+.date {
+    margin-top: 20px;
+    letter-spacing: 3px;
+    font-size: 12px;
+}
+
+.divider {
+    margin: 30px auto;
+    width: 180px;
+    border-top: 1px solid #b18a4a;
+    color: #b18a4a;
+    font-size: 22px;
+}
+
+.description {
+    max-width: 480px;
+    margin: auto auto 25px;
+    line-height: 1.8;
+    font-size: 13px;
+}
+
+.gold-button {
+    background: #594038;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    letter-spacing: 2px;
+    font-size: 10px;
+}
+
+.flower {
+    position: absolute;
+    color: #b18a4a;
+    opacity: .25;
+    font-size: 80px;
+    animation: float 6s infinite ease-in-out;
+}
+
+.flower-1 {
+    top: 15%;
+    left: 8%;
+}
+
+.flower-2 {
+    right: 8%;
+    bottom: 15%;
+}
+
+@keyframes float {
+    50% {
+        transform: translateY(-25px) rotate(10deg);
+    }
+}
+
+
+/* =================================
+   COMMON
+================================= */
+
+section {
+    padding: 100px 20px;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 55px;
+}
+
+.section-title p {
+    color: #b18a4a;
+    font-size: 9px;
+    letter-spacing: 4px;
+    margin-bottom: 10px;
+}
+
+.section-title h2 {
+    font-family: "Cormorant Garamond";
+    font-size: clamp(40px, 5vw, 58px);
+    font-weight: 500;
+    color: #3d2923;
+}
+
+
+/* =================================
+   COUNTDOWN
+================================= */
+
+.countdown-section {
+    background: #3d2923;
+    color: white;
+    text-align: center;
+}
+
+.countdown-section .section-title h2 {
+    color: white;
+}
+
+.countdown {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+}
+
+.countdown div {
+    min-width: 90px;
+}
+
+.countdown strong {
+    display: block;
+    font-family: "Cormorant Garamond";
+    font-size: 55px;
+    font-weight: 400;
+    color: #d6b66c;
+}
+
+.countdown span {
+    font-size: 8px;
+    letter-spacing: 3px;
+}
+
+.countdown i {
+    color: #b18a4a;
+    font-size: 30px;
+}
+
+
+/* =================================
+   COUPLE
+================================= */
+
+.couple {
+    background: #f8f1e7;
+}
+
+.couple-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 60px;
+    max-width: 900px;
+    margin: auto;
+}
+
+.person {
+    width: 280px;
+    text-align: center;
+}
+
+.person img {
+    width: 240px;
+    height: 320px;
+    object-fit: cover;
+    border-radius: 150px 150px 10px 10px;
+    border: 8px solid white;
+    box-shadow: 0 15px 40px rgba(70, 40, 30, .15);
+}
+
+.person small {
+    display: block;
+    color: #b18a4a;
+    letter-spacing: 3px;
+    font-size: 8px;
+    margin-top: 20px;
+}
+
+.person h3 {
+    font-family: "Great Vibes";
+    font-size: 40px;
+    font-weight: 400;
+    color: #3d2923;
+    margin: 8px;
+}
+
+.person p {
+    font-size: 11px;
+    line-height: 1.8;
+}
+
+.heart {
+    color: #bd7777;
+    font-size: 35px;
+}
+
+
+/* =================================
+   EVENTS
+================================= */
+
+.events {
+    background: #f1e5d7;
+}
+
+.events-grid {
+    max-width: 1100px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.event-card {
+    padding: 45px 25px;
+    background: rgba(255, 255, 255, .8);
+    text-align: center;
+    border: 1px solid rgba(177, 138, 74, .3);
+}
+
+.event-card.featured {
+    background: #3d2923;
+    color: white;
+}
+
+.event-icon {
+    font-size: 35px;
+    margin-bottom: 20px;
+}
+
+.event-card small {
+    color: #b18a4a;
+    letter-spacing: 4px;
+    font-size: 9px;
+}
+
+.event-card h3 {
+    font-family: "Cormorant Garamond";
+    font-size: 35px;
+    font-weight: 500;
+    margin: 12px 0 25px;
+}
+
+.event-card p {
+    font-size: 10px;
+    line-height: 2;
+}
+
+.event-card hr {
+    width: 50px;
+    margin: 25px auto;
+    border: 0;
+    border-top: 1px solid #b18a4a;
+}
+
+.event-card>span {
+    font-size: 10px;
+    line-height: 1.7;
+    opacity: .7;
+}
+
+
+/* =================================
+   QUOTE
+================================= */
+
+.quote {
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient( rgba(40, 25, 20, .6), rgba(40, 25, 20, .6)), url("/images/couple-4.jpg") center / cover;
+}
+
+.quote span {
+    color: #d6b66c;
+    font-size: 60px;
+}
+
+.quote p {
+    color: white;
+    font-family: "Cormorant Garamond";
+    font-size: clamp(28px, 4vw, 45px);
+    line-height: 1.3;
+}
+
+
+/* =================================
+   GALLERY
+================================= */
+
+.gallery-section {
+    background: #f8f1e7;
+}
+
+.gallery {
+    max-width: 1100px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.gallery img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    transition: transform .5s;
+}
+
+.gallery img:first-child {
+    height: 615px;
+    grid-row: span 2;
+}
+
+.gallery img:hover {
+    transform: scale(1.03);
+}
+
+
+/* =================================
+   VENUE
+================================= */
+
+.venue {
+    background: #f1e5d7;
+}
+
+.venue-card {
+    max-width: 850px;
+    min-height: 400px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    background: linear-gradient( rgba(50, 30, 23, .7), rgba(50, 30, 23, .7)), url("/images/couple-5.jpg") center / cover;
+}
+
+.location-icon {
+    font-size: 40px;
+}
+
+.venue-card h3 {
+    font-family: "Cormorant Garamond";
+    font-size: 45px;
+    font-weight: 400;
+    margin: 15px;
+}
+
+.venue-card p {
+    line-height: 1.8;
+    font-size: 12px;
+    margin: 15px;
+}
+
+.venue-card a {
+    display: inline-block;
+    color: white;
+    border: 1px solid #d6b66c;
+    padding: 13px 25px;
+    text-decoration: none;
+    font-size: 9px;
+    letter-spacing: 2px;
+    margin-top: 15px;
+}
+
+
+/* =================================
+   RSVP
+================================= */
+
+.rsvp {
+    background: #f8f1e7;
+}
+
+.rsvp-card {
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+}
+
+.rsvp-card>p {
+    color: #b18a4a;
+    font-size: 9px;
+    letter-spacing: 4px;
+}
+
+.rsvp-card h2 {
+    font-family: "Cormorant Garamond";
+    font-size: 55px;
+    font-weight: 500;
+    color: #3d2923;
+    margin: 10px;
+}
+
+.rsvp-card>span {
+    font-size: 12px;
+}
+
+.rsvp form {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.rsvp input,
+.rsvp select,
+.rsvp textarea {
+    padding: 15px;
+    border: 1px solid #d8c8b8;
+    background: white;
+    outline: none;
+    font-family: "Montserrat";
+}
+
+.rsvp textarea {
+    resize: vertical;
+}
+
+
+/* =================================
+   FINAL
+================================= */
+
+.final {
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    background: linear-gradient( rgba(50, 30, 23, .8), rgba(50, 30, 23, .8)), url("/images/couple-2.jpg") center / cover;
+}
+
+.final span {
+    font-size: 50px;
+    color: #d6b66c;
+}
+
+.final p:first-of-type {
+    letter-spacing: 5px;
+    font-size: 9px;
+}
+
+.final h2 {
+    font-family: "Great Vibes";
+    font-size: clamp(60px, 9vw, 100px);
+    font-weight: 400;
+    margin: 20px 0;
+}
+
+.final h2 b {
+    font-family: "Cormorant Garamond";
+    color: #d6b66c;
+    margin: 0 15px;
+}
+
+.final small {
+    letter-spacing: 5px;
+    color: #d6b66c;
+}
+
+.final p:last-child {
+    margin-top: 30px;
+    font-family: "Cormorant Garamond";
+    font-size: 20px;
+}
+
+footer {
+    background: #2c1e19;
+    color: #cdbca7;
+    text-align: center;
+    padding: 25px;
+    font-size: 9px;
+    letter-spacing: 1px;
+}
+
+
+/* =================================
+   MOBILE
+================================= */
+
+@media (max-width: 700px) {
+    .door-intro h1 {
+        font-size: 45px;
+    }
+    .door-names {
+        font-size: 40px;
+    }
+    .doors {
+        height: 55vh;
+    }
+    .countdown {
+        gap: 5px;
+    }
+    .countdown div {
+        min-width: 65px;
+    }
+    .countdown strong {
+        font-size: 35px;
+    }
+    .countdown span {
+        font-size: 6px;
+        letter-spacing: 1px;
+    }
+    .countdown i {
+        font-size: 20px;
+    }
+    .couple-wrapper {
+        flex-direction: column;
+        gap: 25px;
+    }
+    .events-grid {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+    }
+    .gallery {
+        grid-template-columns: 1fr;
+    }
+    .gallery img,
+    .gallery img:first-child {
+        height: 350px;
+        grid-row: auto;
+    }
+    .venue-card h3 {
+        font-size: 35px;
+    }
+    .rsvp-card h2 {
+        font-size: 45px;
+    }
+}
