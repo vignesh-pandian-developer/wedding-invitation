@@ -1,4 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600&=swap");
+:root {
+    --cream: #f8f2e9;
+    --cream-dark: #eee3d3;
+    --brown: #5a4033;
+    --brown-dark: #302018;
+    --gold: #b4935a;
+    --gold-light: #d8bd87;
+    --white: #ffffff;
+    --black: #17120f;
+    --shadow: rgba(49, 32, 20, 0.18);
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -11,426 +23,824 @@ html {
 
 body {
     font-family: "Montserrat", sans-serif;
-    background: #f8f1e7;
-    color: #59453b;
-    overflow: hidden;
+    background: var(--cream);
+    color: var(--brown-dark);
+    overflow-x: hidden;
+}
+
+button,
+a {
+    font-family: inherit;
 }
 
 button {
-    font-family: inherit;
     cursor: pointer;
 }
 
+img {
+    max-width: 100%;
+}
 
-/* =================================
-   DOOR
-================================= */
+.wedding-app {
+    overflow: hidden;
+}
+
+
+/* =====================================================
+   DOOR SCREEN
+===================================================== */
 
 .door-screen {
     position: fixed;
     inset: 0;
-    z-index: 1000;
+    z-index: 9999;
+    background: radial-gradient( circle at center, #765b48 0%, #443126 45%, #211712 100%);
+    overflow: hidden;
+}
+
+.door-background {
+    position: absolute;
+    inset: 0;
     display: flex;
-    align-items: center;
     justify-content: center;
-    background: radial-gradient( circle, #80604f, #4b342b 60%, #261914);
-    color: white;
+    align-items: center;
 }
 
-.door-intro {
-    width: 100%;
-    height: 100vh;
-    text-align: center;
-    padding-top: 30px;
+.door-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: rgba(214, 181, 126, 0.08);
+    filter: blur(70px);
+}
+
+.door-content {
     position: relative;
+    z-index: 20;
+    width: min(90%, 900px);
+    text-align: center;
+    color: var(--white);
 }
 
-.ornament {
-    color: #e1bd70;
+.door-small-title {
+    font-size: 10px;
+    letter-spacing: 5px;
+    opacity: 0.8;
+    margin-bottom: 15px;
+}
+
+.door-ornament {
+    color: var(--gold-light);
+    font-size: 35px;
+    margin-bottom: 10px;
+}
+
+.door-invite {
+    font-size: 9px;
+    letter-spacing: 4px;
+    opacity: 0.8;
+}
+
+.door-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(45px, 7vw, 90px);
+    font-weight: 300;
+    line-height: 0.9;
+    margin: 12px 0;
+}
+
+.door-couple {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    font-family: "Cormorant Garamond", serif;
     font-size: 30px;
 }
 
-.invite-text {
-    font-size: 10px;
-    letter-spacing: 5px;
-    margin-top: 10px;
-}
-
-.door-intro h1 {
-    font-family: "Cormorant Garamond";
-    font-size: 70px;
-    font-weight: 400;
-    margin-top: 5px;
-}
-
-.door-names {
-    font-family: "Great Vibes";
-    color: #e7c783;
-    font-size: 50px;
-}
-
-.door-names span {
-    font-family: "Cormorant Garamond";
-    margin: 0 15px;
+.door-couple b {
+    color: var(--gold-light);
+    font-weight: 300;
 }
 
 .door-date {
     font-size: 11px;
     letter-spacing: 5px;
-    margin-top: 10px;
+    margin-top: 12px;
+    color: var(--gold-light);
 }
 
-.doors {
-    position: absolute;
-    width: min(520px, 85vw);
-    height: 60vh;
-    min-height: 390px;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
+.door-frame {
+    position: relative;
+    width: min(90vw, 550px);
+    height: 400px;
+    margin: 30px auto 20px;
+    perspective: 1200px;
 }
 
-.door {
+.door-left,
+.door-right {
     position: absolute;
     top: 0;
     width: 50%;
     height: 100%;
-    background: linear-gradient( 90deg, #4a3024, #79533e, #4b3024);
-    border: 5px solid #a77d48;
-    box-shadow: inset 0 0 0 7px rgba(255, 255, 255, .08), inset 0 0 30px rgba(0, 0, 0, .5);
+    background: linear-gradient( 90deg, #5b3a29, #80593f 50%, #4b3022);
+    border: 3px solid #b38a56;
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.35), 0 20px 60px rgba(0, 0, 0, 0.3);
+    transition: transform 1.6s cubic-bezier(0.7, 0, 0.2, 1);
+    backface-visibility: hidden;
 }
 
 .door-left {
     left: 0;
+    transform-origin: left center;
 }
 
 .door-right {
     right: 0;
+    transform-origin: right center;
 }
 
-.door span {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 65px;
-    color: #d3a85d;
+.door-opening .door-left {
+    transform: rotateY(-105deg);
 }
 
-.open-invitation {
+.door-opening .door-right {
+    transform: rotateY(105deg);
+}
+
+.door-panel {
     position: absolute;
-    z-index: 10;
-    top: 50%;
+    border: 1px solid rgba(216, 189, 135, 0.6);
+    left: 12%;
+    right: 12%;
+}
+
+.panel-one {
+    top: 10%;
+    bottom: 52%;
+}
+
+.panel-two {
+    top: 56%;
+    bottom: 10%;
+}
+
+.door-decoration {
+    position: absolute;
+    top: 43%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 145px;
-    height: 145px;
+    color: var(--gold-light);
+    font-size: 50px;
+    opacity: 0.7;
+}
+
+.open-button {
+    position: absolute;
+    z-index: 100;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 130px;
+    height: 130px;
     border-radius: 50%;
-    background: rgba(50, 30, 23, .95);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    background: rgba(39, 25, 17, 0.85);
     color: white;
-    border: 1px solid #e1bd70;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 5px;
+    transition: 0.4s;
+    backdrop-filter: blur(5px);
 }
 
-.open-invitation strong {
-    font-family: "Cormorant Garamond";
+.open-button:hover {
+    transform: translate(-50%, -50%) scale(1.08);
+    background: rgba(91, 58, 41, 0.95);
+}
+
+.open-icon {
+    color: var(--gold-light);
+    font-size: 24px;
+}
+
+.open-button span:nth-child(2) {
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+.open-button small {
+    font-size: 7px;
+    opacity: 0.7;
+}
+
+.door-bottom-text {
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
     font-size: 17px;
+    opacity: 0.75;
 }
 
-.open-invitation small {
-    font-size: 8px;
-    letter-spacing: 2px;
-}
-
-
-/* =================================
-   MAIN
-================================= */
-
-.invitation {
-    opacity: 0;
-    visibility: hidden;
-    transition: 1s;
-}
-
-.invitation.show {
-    opacity: 1;
-    visibility: visible;
-}
-
-
-/* =================================
-   MUSIC
-================================= */
-
-.music-button {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 999;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    border: 1px solid #b18a4a;
-    background: white;
-    font-size: 18px;
-}
-
-
-/* =================================
-   HERO
-================================= */
-
-.hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    background: linear-gradient( rgba(248, 241, 231, .92), rgba(248, 241, 231, .95)), url("/images/couple-3.jpg") center / cover;
-}
-
-.hero-content {
-    max-width: 800px;
-    padding: 30px;
-}
-
-.small-title {
-    font-size: 10px;
-    letter-spacing: 5px;
-}
-
-.hero h2 {
-    font-family: "Cormorant Garamond";
-    font-size: clamp( 65px, 9vw, 110px);
-    line-height: .85;
-    font-weight: 400;
-    color: #3d2923;
-    margin-top: 25px;
-}
-
-.hero h2 span {
-    font-family: "Great Vibes";
-    color: #b18a4a;
-}
-
-.main-names {
-    margin-top: 35px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    font-family: "Cormorant Garamond";
-    font-size: 32px;
-}
-
-.main-names b {
-    font-family: "Great Vibes";
-    color: #b18a4a;
-    font-size: 45px;
-}
-
-.date {
-    margin-top: 20px;
-    letter-spacing: 3px;
-    font-size: 12px;
-}
-
-.divider {
-    margin: 30px auto;
-    width: 180px;
-    border-top: 1px solid #b18a4a;
-    color: #b18a4a;
-    font-size: 22px;
-}
-
-.description {
-    max-width: 480px;
-    margin: auto auto 25px;
-    line-height: 1.8;
-    font-size: 13px;
-}
-
-.gold-button {
-    background: #594038;
-    color: white;
-    border: none;
-    padding: 15px 30px;
-    letter-spacing: 2px;
-    font-size: 10px;
-}
-
-.flower {
+.floating-petal {
     position: absolute;
-    color: #b18a4a;
-    opacity: .25;
-    font-size: 80px;
-    animation: float 6s infinite ease-in-out;
+    color: var(--gold-light);
+    opacity: 0.3;
+    animation: floating 6s ease-in-out infinite;
 }
 
-.flower-1 {
-    top: 15%;
-    left: 8%;
+.petal-1 {
+    left: 12%;
+    top: 20%;
 }
 
-.flower-2 {
-    right: 8%;
-    bottom: 15%;
+.petal-2 {
+    right: 15%;
+    top: 35%;
+    animation-delay: 1s;
 }
 
-@keyframes float {
+.petal-3 {
+    left: 20%;
+    bottom: 20%;
+    animation-delay: 2s;
+}
+
+@keyframes floating {
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
     50% {
-        transform: translateY(-25px) rotate(10deg);
+        transform: translateY(-25px) rotate(20deg);
     }
 }
 
 
-/* =================================
-   COMMON
-================================= */
+/* =====================================================
+   INVITATION
+===================================================== */
 
-section {
-    padding: 100px 20px;
+.invitation {
+    opacity: 0;
+    visibility: hidden;
 }
 
-.section-title {
+.invitation-visible {
+    opacity: 1;
+    visibility: visible;
+    animation: invitationReveal 1.2s ease forwards;
+}
+
+@keyframes invitationReveal {
+    from {
+        opacity: 0;
+        transform: scale(1.02);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+.top-navigation {
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    padding: 0 6%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: 0.4s;
+    color: white;
+}
+
+.nav-scrolled {
+    background: rgba(48, 32, 24, 0.94);
+    backdrop-filter: blur(15px);
+    height: 65px;
+}
+
+.nav-logo {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.nav-logo span {
+    color: var(--gold-light);
+    font-size: 18px;
+}
+
+.top-navigation nav {
+    display: flex;
+    gap: 28px;
+}
+
+.top-navigation nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 10px;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+
+.top-navigation nav a:hover {
+    color: var(--gold-light);
+}
+
+.nav-music {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    background: transparent;
+    color: white;
+}
+
+
+/* =====================================================
+   HERO
+===================================================== */
+
+.hero-section {
+    position: relative;
+    min-height: 100vh;
+    background: linear-gradient( 110deg, #493326, #775842);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 130px 9% 80px;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient( circle at 70% 40%, rgba(255, 236, 200, 0.12), transparent 40%);
+}
+
+.hero-left {
+    position: relative;
+    z-index: 10;
+    width: 45%;
+}
+
+.hero-label {
+    font-size: 10px;
+    letter-spacing: 5px;
+    color: var(--gold-light);
+}
+
+.hero-line {
+    width: 55px;
+    height: 1px;
+    background: var(--gold-light);
+    margin: 20px 0;
+}
+
+.hero-left h1 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(65px, 9vw, 125px);
+    font-weight: 300;
+    line-height: 0.72;
+}
+
+.hero-left h1 span {
+    display: block;
+    font-size: 0.4em;
+    color: var(--gold-light);
+    margin: 18px 0;
+}
+
+.hero-description {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 21px;
+    font-style: italic;
+    line-height: 1.5;
+    opacity: 0.8;
+    margin-top: 40px;
+}
+
+.hero-date {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 40px;
+}
+
+.hero-date>span {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 55px;
+    color: var(--gold-light);
+}
+
+.hero-date div {
+    border-left: 1px solid rgba(255, 255, 255, 0.4);
+    padding-left: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.hero-date small {
+    letter-spacing: 3px;
+}
+
+.hero-date b {
+    font-weight: 400;
+    letter-spacing: 2px;
+}
+
+.hero-image-wrapper {
+    position: relative;
+    width: 48%;
+    height: 600px;
+}
+
+.hero-image-back,
+.hero-image-front {
+    position: absolute;
+    overflow: hidden;
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.3);
+}
+
+.hero-image-back {
+    width: 55%;
+    height: 70%;
+    top: 5%;
+    right: 2%;
+    transform: rotate(7deg);
+    border: 8px solid rgba(255, 255, 255, 0.8);
+}
+
+.hero-image-front {
+    width: 60%;
+    height: 78%;
+    left: 5%;
+    bottom: 5%;
+    transform: rotate(-5deg);
+    border: 10px solid white;
+    z-index: 5;
+}
+
+.hero-image-back img,
+.hero-image-front img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero-ring {
+    position: absolute;
+    border: 1px solid rgba(216, 189, 135, 0.35);
+    border-radius: 50%;
+}
+
+.ring-one {
+    width: 500px;
+    height: 500px;
+    top: 50px;
+    left: 10%;
+}
+
+.ring-two {
+    width: 600px;
+    height: 600px;
+    top: 0;
+    left: 0;
+}
+
+.hero-flower {
+    position: absolute;
+    color: var(--gold-light);
+    font-size: 70px;
+    z-index: 20;
+}
+
+.flower-one {
+    right: 4%;
+    bottom: 8%;
+}
+
+.flower-two {
+    left: 0;
+    top: 20%;
+}
+
+
+/* =====================================================
+   STORY
+===================================================== */
+
+.story-section {
+    min-height: 600px;
+    padding: 140px 20px;
     text-align: center;
-    margin-bottom: 55px;
+    background: var(--cream);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-.section-title p {
-    color: #b18a4a;
+.section-decoration {
+    color: var(--gold);
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.section-kicker,
+.story-section>p:first-of-type {
     font-size: 9px;
-    letter-spacing: 4px;
-    margin-bottom: 10px;
+    letter-spacing: 5px;
+    color: var(--gold);
 }
 
-.section-title h2 {
-    font-family: "Cormorant Garamond";
-    font-size: clamp(40px, 5vw, 58px);
-    font-weight: 500;
-    color: #3d2923;
+.story-section h2 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(55px, 7vw, 90px);
+    font-weight: 300;
+    line-height: 0.8;
+    margin: 25px 0 35px;
+}
+
+.story-section h2 i,
+.section-heading h2 i,
+.countdown-content h2 i,
+.venue-content h2 i,
+.rsvp-content h2 i {
+    font-weight: 300;
+    color: var(--gold);
+}
+
+.story-text {
+    max-width: 550px;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 22px;
+    line-height: 1.6;
+    color: #80695a;
+}
+
+.story-signature {
+    margin-top: 35px;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 24px;
+}
+
+.story-signature span {
+    color: var(--gold);
+    margin: 0 10px;
 }
 
 
-/* =================================
+/* =====================================================
+   OVERLAPPING GALLERY
+===================================================== */
+
+.overlap-section {
+    min-height: 950px;
+    padding: 120px 20px 180px;
+    background: #e9dfd1;
+    overflow: hidden;
+}
+
+.section-heading {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 80px;
+}
+
+.section-heading>p {
+    font-size: 9px;
+    letter-spacing: 5px;
+    color: var(--gold);
+    margin-bottom: 15px;
+}
+
+.section-heading h2 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(55px, 7vw, 85px);
+    line-height: 0.8;
+    font-weight: 300;
+}
+
+.section-heading>span {
+    display: block;
+    margin-top: 25px;
+    font-size: 13px;
+    color: #80695a;
+    line-height: 1.7;
+}
+
+.overlap-gallery {
+    position: relative;
+    width: min(100%, 1000px);
+    height: 520px;
+    margin: auto;
+}
+
+.gallery-photo {
+    position: absolute;
+    padding: 10px;
+    background: white;
+    box-shadow: 0 25px 60px rgba(53, 37, 26, 0.2);
+    transition: transform 0.7s ease, z-index 0.3s ease;
+}
+
+.gallery-photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.gallery-photo:hover {
+    z-index: 100 !important;
+}
+
+.photo-number {
+    position: absolute;
+    z-index: 5;
+    top: 15px;
+    left: 15px;
+    width: 35px;
+    height: 35px;
+    background: rgba(255, 255, 255, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    color: var(--brown);
+}
+
+.gallery-photo-one {
+    width: 290px;
+    height: 380px;
+    left: 2%;
+    top: 70px;
+    transform: rotate(-8deg);
+    z-index: 3;
+}
+
+.gallery-photo-one:hover {
+    transform: rotate(-3deg) scale(1.06);
+}
+
+.gallery-photo-two {
+    width: 350px;
+    height: 450px;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%) rotate(2deg);
+    z-index: 8;
+}
+
+.gallery-photo-two:hover {
+    transform: translateX(-50%) rotate(0deg) scale(1.05);
+}
+
+.gallery-photo-three {
+    width: 285px;
+    height: 370px;
+    right: 2%;
+    top: 65px;
+    transform: rotate(8deg);
+    z-index: 4;
+}
+
+.gallery-photo-three:hover {
+    transform: rotate(3deg) scale(1.06);
+}
+
+.gallery-photo-four {
+    width: 260px;
+    height: 320px;
+    left: 50%;
+    bottom: -130px;
+    transform: translateX(-50%) rotate(-5deg);
+    z-index: 10;
+}
+
+.gallery-photo-four:hover {
+    transform: translateX(-50%) rotate(0deg) scale(1.05);
+}
+
+.gallery-center {
+    position: absolute;
+    z-index: 30;
+    left: 50%;
+    top: 48%;
+    transform: translate(-50%, -50%);
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+    background: rgba(255, 250, 243, 0.92);
+    box-shadow: 0 20px 50px rgba(50, 35, 25, 0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 35px;
+}
+
+.gallery-center span {
+    font-size: 18px;
+    color: var(--gold);
+}
+
+
+/* =====================================================
    COUNTDOWN
-================================= */
+===================================================== */
 
 .countdown-section {
-    background: #3d2923;
+    position: relative;
+    min-height: 550px;
+    background: linear-gradient( rgba(42, 27, 20, 0.75), rgba(42, 27, 20, 0.75)), url("/images/couple-5.jpg") center / cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: white;
     text-align: center;
 }
 
-.countdown-section .section-title h2 {
-    color: white;
+.countdown-content {
+    position: relative;
+    z-index: 5;
+}
+
+.countdown-content>p {
+    font-size: 9px;
+    letter-spacing: 5px;
+    color: var(--gold-light);
+}
+
+.countdown-content h2 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(55px, 7vw, 85px);
+    font-weight: 300;
+    line-height: 0.85;
+    margin: 25px 0 55px;
 }
 
 .countdown {
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     gap: 25px;
 }
 
-.countdown div {
+.count-box {
     min-width: 90px;
-}
-
-.countdown strong {
-    display: block;
-    font-family: "Cormorant Garamond";
-    font-size: 55px;
-    font-weight: 400;
-    color: #d6b66c;
-}
-
-.countdown span {
-    font-size: 8px;
-    letter-spacing: 3px;
-}
-
-.countdown i {
-    color: #b18a4a;
-    font-size: 30px;
-}
-
-
-/* =================================
-   COUPLE
-================================= */
-
-.couple {
-    background: #f8f1e7;
-}
-
-.couple-wrapper {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 60px;
-    max-width: 900px;
-    margin: auto;
+    flex-direction: column;
 }
 
-.person {
-    width: 280px;
-    text-align: center;
+.count-box strong {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 60px;
+    font-weight: 300;
 }
 
-.person img {
-    width: 240px;
-    height: 320px;
-    object-fit: cover;
-    border-radius: 150px 150px 10px 10px;
-    border: 8px solid white;
-    box-shadow: 0 15px 40px rgba(70, 40, 30, .15);
-}
-
-.person small {
-    display: block;
-    color: #b18a4a;
-    letter-spacing: 3px;
+.count-box span {
     font-size: 8px;
-    margin-top: 20px;
+    letter-spacing: 3px;
+    color: var(--gold-light);
 }
 
-.person h3 {
-    font-family: "Great Vibes";
+.count-separator {
+    color: var(--gold-light);
+    font-family: "Cormorant Garamond", serif;
     font-size: 40px;
-    font-weight: 400;
-    color: #3d2923;
-    margin: 8px;
-}
-
-.person p {
-    font-size: 11px;
-    line-height: 1.8;
-}
-
-.heart {
-    color: #bd7777;
-    font-size: 35px;
+    margin-bottom: 20px;
 }
 
 
-/* =================================
+/* =====================================================
    EVENTS
-================================= */
+===================================================== */
 
-.events {
-    background: #f1e5d7;
+.events-section {
+    padding: 130px 20px;
+    background: var(--cream);
 }
 
 .events-grid {
-    max-width: 1100px;
+    width: min(100%, 1100px);
     margin: auto;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -438,324 +848,639 @@ section {
 }
 
 .event-card {
-    padding: 45px 25px;
-    background: rgba(255, 255, 255, .8);
+    min-height: 420px;
+    background: white;
+    padding: 55px 25px;
     text-align: center;
-    border: 1px solid rgba(177, 138, 74, .3);
+    box-shadow: 0 20px 50px rgba(72, 52, 38, 0.08);
+    position: relative;
+    transition: 0.5s;
+}
+
+.event-card:hover {
+    transform: translateY(-12px);
 }
 
 .event-card.featured {
-    background: #3d2923;
+    background: #58402f;
     color: white;
+    transform: translateY(-25px);
+}
+
+.event-card.featured:hover {
+    transform: translateY(-37px);
 }
 
 .event-icon {
+    color: var(--gold);
     font-size: 35px;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
-.event-card small {
-    color: #b18a4a;
+.event-day {
+    font-size: 8px;
     letter-spacing: 4px;
-    font-size: 9px;
+    color: var(--gold);
 }
 
 .event-card h3 {
-    font-family: "Cormorant Garamond";
+    font-family: "Cormorant Garamond", serif;
+    font-size: 45px;
+    font-weight: 400;
+    margin: 15px 0;
+}
+
+.event-date {
+    font-family: "Cormorant Garamond", serif;
     font-size: 35px;
-    font-weight: 500;
-    margin: 12px 0 25px;
+    color: var(--gold);
 }
 
-.event-card p {
-    font-size: 10px;
-    line-height: 2;
-}
-
-.event-card hr {
-    width: 50px;
-    margin: 25px auto;
-    border: 0;
-    border-top: 1px solid #b18a4a;
+.event-card>p:not(.event-day) {
+    margin-top: 15px;
+    font-size: 11px;
 }
 
 .event-card>span {
-    font-size: 10px;
-    line-height: 1.7;
-    opacity: .7;
+    display: block;
+    margin-top: 10px;
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-size: 18px;
+    opacity: 0.7;
+}
+
+.event-line {
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+    margin: 35px auto 0;
 }
 
 
-/* =================================
-   QUOTE
-================================= */
+/* =====================================================
+   FEATURE PHOTO
+===================================================== */
 
-.quote {
-    min-height: 500px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    background: linear-gradient( rgba(40, 25, 20, .6), rgba(40, 25, 20, .6)), url("/images/couple-4.jpg") center / cover;
+.feature-photo-section {
+    padding: 0;
+    background: var(--brown-dark);
 }
 
-.quote span {
-    color: #d6b66c;
-    font-size: 60px;
+.feature-photo {
+    height: 700px;
+    position: relative;
+    overflow: hidden;
 }
 
-.quote p {
-    color: white;
-    font-family: "Cormorant Garamond";
-    font-size: clamp(28px, 4vw, 45px);
-    line-height: 1.3;
-}
-
-
-/* =================================
-   GALLERY
-================================= */
-
-.gallery-section {
-    background: #f8f1e7;
-}
-
-.gallery {
-    max-width: 1100px;
-    margin: auto;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-}
-
-.gallery img {
+.feature-photo>img {
     width: 100%;
-    height: 300px;
+    height: 100%;
     object-fit: cover;
-    transition: transform .5s;
 }
 
-.gallery img:first-child {
-    height: 615px;
-    grid-row: span 2;
+.feature-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient( 90deg, rgba(20, 12, 8, 0.7), transparent, rgba(20, 12, 8, 0.3));
 }
 
-.gallery img:hover {
-    transform: scale(1.03);
-}
-
-
-/* =================================
-   VENUE
-================================= */
-
-.venue {
-    background: #f1e5d7;
-}
-
-.venue-card {
-    max-width: 850px;
-    min-height: 400px;
-    margin: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+.feature-text {
+    position: absolute;
+    z-index: 5;
+    left: 10%;
+    top: 50%;
+    transform: translateY(-50%);
     color: white;
-    background: linear-gradient( rgba(50, 30, 23, .7), rgba(50, 30, 23, .7)), url("/images/couple-5.jpg") center / cover;
 }
 
-.location-icon {
-    font-size: 40px;
-}
-
-.venue-card h3 {
-    font-family: "Cormorant Garamond";
-    font-size: 45px;
-    font-weight: 400;
-    margin: 15px;
-}
-
-.venue-card p {
-    line-height: 1.8;
-    font-size: 12px;
-    margin: 15px;
-}
-
-.venue-card a {
-    display: inline-block;
-    color: white;
-    border: 1px solid #d6b66c;
-    padding: 13px 25px;
-    text-decoration: none;
+.feature-text>span {
     font-size: 9px;
-    letter-spacing: 2px;
+    letter-spacing: 5px;
+    color: var(--gold-light);
+}
+
+.feature-text h2 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(65px, 9vw, 120px);
+    font-weight: 300;
+    line-height: 0.75;
+    margin: 20px 0 30px;
+}
+
+.feature-text h2 i {
+    display: block;
+    color: var(--gold-light);
+    font-weight: 300;
+}
+
+.feature-text>div {
+    letter-spacing: 5px;
+    font-size: 10px;
+}
+
+
+/* =====================================================
+   VENUE
+===================================================== */
+
+.venue-section {
+    min-height: 700px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: #e7dccd;
+}
+
+.venue-image {
+    position: relative;
+    min-height: 600px;
+    overflow: hidden;
+    background: #d5c7b6;
+}
+
+.venue-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.venue-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #8e765e;
+}
+
+.venue-placeholder span {
+    font-size: 50px;
+    color: var(--gold);
+}
+
+.venue-placeholder p {
+    letter-spacing: 5px;
+    font-size: 9px;
+}
+
+.venue-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 10%;
+}
+
+.venue-content h2 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 90px;
+    font-weight: 300;
+    line-height: 0.7;
+    margin: 30px 0;
+}
+
+.venue-line {
+    width: 60px;
+    height: 1px;
+    background: var(--gold);
+    margin-bottom: 25px;
+}
+
+.venue-content h3 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 28px;
+    font-weight: 500;
+}
+
+.venue-content>p:last-of-type {
+    font-size: 13px;
+    line-height: 2;
+    color: #80695a;
     margin-top: 15px;
 }
 
-
-/* =================================
-   RSVP
-================================= */
-
-.rsvp {
-    background: #f8f1e7;
-}
-
-.rsvp-card {
-    max-width: 600px;
-    margin: auto;
-    text-align: center;
-}
-
-.rsvp-card>p {
-    color: #b18a4a;
-    font-size: 9px;
-    letter-spacing: 4px;
-}
-
-.rsvp-card h2 {
-    font-family: "Cormorant Garamond";
-    font-size: 55px;
-    font-weight: 500;
-    color: #3d2923;
-    margin: 10px;
-}
-
-.rsvp-card>span {
-    font-size: 12px;
-}
-
-.rsvp form {
+.map-button {
+    width: fit-content;
     margin-top: 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    padding: 15px 25px;
+    border: 1px solid var(--gold);
+    background: transparent;
+    color: var(--brown);
+    font-size: 9px;
+    letter-spacing: 2px;
+    transition: 0.3s;
 }
 
-.rsvp input,
-.rsvp select,
-.rsvp textarea {
-    padding: 15px;
-    border: 1px solid #d8c8b8;
-    background: white;
-    outline: none;
-    font-family: "Montserrat";
+.map-button:hover {
+    background: var(--brown);
+    color: white;
 }
 
-.rsvp textarea {
-    resize: vertical;
+.map-button span {
+    margin-right: 10px;
 }
 
 
-/* =================================
-   FINAL
-================================= */
+/* =====================================================
+   RSVP
+===================================================== */
 
-.final {
+.rsvp-section {
+    position: relative;
     min-height: 600px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: white;
-    background: linear-gradient( rgba(50, 30, 23, .8), rgba(50, 30, 23, .8)), url("/images/couple-2.jpg") center / cover;
+    background: var(--cream);
+    overflow: hidden;
 }
 
-.final span {
-    font-size: 50px;
-    color: #d6b66c;
+.rsvp-content {
+    position: relative;
+    z-index: 5;
 }
 
-.final p:first-of-type {
-    letter-spacing: 5px;
+.rsvp-content>p:not(.section-kicker) {
     font-size: 9px;
+    letter-spacing: 4px;
+    color: var(--gold);
 }
 
-.final h2 {
-    font-family: "Great Vibes";
-    font-size: clamp(60px, 9vw, 100px);
-    font-weight: 400;
-    margin: 20px 0;
+.rsvp-content h2 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 90px;
+    font-weight: 300;
+    line-height: 0.75;
+    margin: 25px 0;
 }
 
-.final h2 b {
-    font-family: "Cormorant Garamond";
-    color: #d6b66c;
-    margin: 0 15px;
+.rsvp-content>span {
+    display: block;
+    max-width: 450px;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 20px;
+    color: #80695a;
 }
 
-.final small {
-    letter-spacing: 5px;
-    color: #d6b66c;
+.rsvp-button {
+    margin-top: 35px;
+    padding: 18px 50px;
+    background: var(--brown);
+    color: white;
+    border: none;
+    letter-spacing: 3px;
+    font-size: 10px;
+    transition: 0.3s;
 }
 
-.final p:last-child {
-    margin-top: 30px;
-    font-family: "Cormorant Garamond";
+.rsvp-button:hover {
+    background: var(--gold);
+    transform: translateY(-3px);
+}
+
+.rsvp-flower {
+    position: absolute;
+    color: var(--gold-light);
+    opacity: 0.2;
+    font-size: 220px;
+}
+
+.flower-left {
+    left: -80px;
+    top: 20px;
+    transform: rotate(-20deg);
+}
+
+.flower-right {
+    right: -80px;
+    bottom: 10px;
+    transform: rotate(30deg);
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.footer {
+    background: #302018;
+    color: white;
+    text-align: center;
+    padding: 90px 20px 50px;
+}
+
+.footer-monogram {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 35px;
+}
+
+.footer-monogram span {
+    color: var(--gold-light);
     font-size: 20px;
 }
 
-footer {
-    background: #2c1e19;
-    color: #cdbca7;
-    text-align: center;
-    padding: 25px;
+.footer h2 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 65px;
+    font-weight: 300;
+    margin: 15px 0;
+}
+
+.footer h2 span {
+    color: var(--gold-light);
+    margin: 0 12px;
+}
+
+.footer p {
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-size: 19px;
+    opacity: 0.65;
+}
+
+.footer-date {
+    margin-top: 30px;
     font-size: 9px;
-    letter-spacing: 1px;
+    letter-spacing: 5px;
+    color: var(--gold-light);
+}
+
+.footer-line {
+    width: 50px;
+    height: 1px;
+    background: var(--gold);
+    margin: 35px auto;
+}
+
+.footer small {
+    font-size: 7px;
+    letter-spacing: 4px;
+    opacity: 0.5;
 }
 
 
-/* =================================
-   MOBILE
-================================= */
+/* =====================================================
+   FLOATING MUSIC
+===================================================== */
 
-@media (max-width: 700px) {
-    .door-intro h1 {
-        font-size: 45px;
+.floating-music {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    z-index: 900;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: none;
+    background: var(--brown);
+    color: white;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.music-disc {
+    font-size: 23px;
+}
+
+.floating-music.playing .music-disc {
+    animation: musicRotate 3s linear infinite;
+}
+
+@keyframes musicRotate {
+    to {
+        transform: rotate(360deg);
     }
-    .door-names {
-        font-size: 40px;
+}
+
+.music-waves {
+    position: absolute;
+    inset: -7px;
+    border: 1px solid rgba(180, 147, 90, 0.5);
+    border-radius: 50%;
+    animation: musicPulse 1.5s ease-out infinite;
+}
+
+@keyframes musicPulse {
+    0% {
+        transform: scale(0.9);
+        opacity: 1;
     }
-    .doors {
-        height: 55vh;
+    100% {
+        transform: scale(1.25);
+        opacity: 0;
     }
-    .countdown {
-        gap: 5px;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 900px) {
+    .top-navigation nav {
+        display: none;
     }
-    .countdown div {
-        min-width: 65px;
-    }
-    .countdown strong {
-        font-size: 35px;
-    }
-    .countdown span {
-        font-size: 6px;
-        letter-spacing: 1px;
-    }
-    .countdown i {
-        font-size: 20px;
-    }
-    .couple-wrapper {
+    .hero-section {
         flex-direction: column;
-        gap: 25px;
+        padding-top: 140px;
+    }
+    .hero-left {
+        width: 100%;
+        text-align: center;
+    }
+    .hero-line {
+        margin: 20px auto;
+    }
+    .hero-date {
+        justify-content: center;
+    }
+    .hero-image-wrapper {
+        width: 100%;
+        max-width: 600px;
+        margin-top: 50px;
+        height: 500px;
     }
     .events-grid {
         grid-template-columns: 1fr;
         max-width: 500px;
     }
-    .gallery {
+    .event-card.featured {
+        transform: none;
+    }
+    .event-card.featured:hover {
+        transform: translateY(-12px);
+    }
+    .venue-section {
         grid-template-columns: 1fr;
     }
-    .gallery img,
-    .gallery img:first-child {
+    .venue-image {
+        min-height: 450px;
+    }
+    .venue-content {
+        min-height: 550px;
+    }
+}
+
+@media (max-width: 700px) {
+    .door-frame {
+        height: 330px;
+    }
+    .door-title {
+        font-size: 52px;
+    }
+    .door-couple {
+        font-size: 25px;
+    }
+    .hero-section {
+        min-height: 1000px;
+    }
+    .hero-left h1 {
+        font-size: 75px;
+    }
+    .hero-image-wrapper {
+        height: 440px;
+    }
+    .hero-image-front {
+        width: 65%;
+        height: 70%;
+    }
+    .hero-image-back {
+        width: 58%;
+        height: 62%;
+    }
+    .overlap-section {
+        min-height: 900px;
+    }
+    .overlap-gallery {
+        height: 570px;
+    }
+    .gallery-photo-one {
+        width: 190px;
+        height: 255px;
+        left: 0;
+        top: 50px;
+    }
+    .gallery-photo-two {
+        width: 230px;
+        height: 310px;
+        top: 100px;
+    }
+    .gallery-photo-three {
+        width: 180px;
+        height: 245px;
+        right: 0;
+        top: 290px;
+    }
+    .gallery-photo-four {
+        width: 200px;
+        height: 250px;
+        bottom: 0;
+    }
+    .gallery-center {
+        width: 90px;
+        height: 90px;
+        font-size: 25px;
+        top: 50%;
+    }
+    .countdown {
+        gap: 5px;
+    }
+    .count-box {
+        min-width: 65px;
+    }
+    .count-box strong {
+        font-size: 40px;
+    }
+    .count-box span {
+        font-size: 6px;
+        letter-spacing: 1px;
+    }
+    .count-separator {
+        font-size: 25px;
+    }
+    .feature-photo {
+        height: 550px;
+    }
+    .feature-text {
+        left: 7%;
+    }
+    .feature-text h2 {
+        font-size: 70px;
+    }
+    .venue-content h2,
+    .rsvp-content h2 {
+        font-size: 70px;
+    }
+    .footer h2 {
+        font-size: 48px;
+    }
+    .floating-music {
+        width: 52px;
+        height: 52px;
+        right: 18px;
+        bottom: 18px;
+    }
+}
+
+@media (max-width: 450px) {
+    .door-small-title {
+        letter-spacing: 3px;
+    }
+    .door-invite {
+        font-size: 7px;
+        letter-spacing: 2px;
+    }
+    .door-frame {
+        width: 94vw;
+        height: 290px;
+    }
+    .open-button {
+        width: 105px;
+        height: 105px;
+    }
+    .open-button span:nth-child(2) {
+        font-size: 8px;
+    }
+    .hero-left h1 {
+        font-size: 65px;
+    }
+    .hero-image-wrapper {
+        height: 370px;
+    }
+    .ring-one {
+        width: 350px;
         height: 350px;
-        grid-row: auto;
     }
-    .venue-card h3 {
-        font-size: 35px;
+    .ring-two {
+        width: 400px;
+        height: 400px;
     }
-    .rsvp-card h2 {
-        font-size: 45px;
+    .count-box {
+        min-width: 55px;
+    }
+    .count-box strong {
+        font-size: 32px;
+    }
+    .count-separator {
+        font-size: 20px;
+    }
+    .gallery-photo-one {
+        width: 165px;
+        height: 225px;
+    }
+    .gallery-photo-two {
+        width: 205px;
+        height: 275px;
+    }
+    .gallery-photo-three {
+        width: 155px;
+        height: 215px;
+    }
+    .gallery-photo-four {
+        width: 180px;
+        height: 225px;
     }
 }
