@@ -117,7 +117,8 @@ function App() {
     setTimeout(() => {
       setShowDoor(false);
       setOpened(true);
-
+       audioRef.current.play();
+        setMusicPlaying(true);
       window.scrollTo({
         top: 0,
         behavior: "auto",
