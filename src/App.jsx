@@ -133,7 +133,8 @@ function App() {
 
       setTimeout(() => {
         setOpened(true);
-
+       audioRef.current.play();
+        setMusicPlaying(true);
         window.scrollTo({
           top: 0,
           behavior: "instant",
