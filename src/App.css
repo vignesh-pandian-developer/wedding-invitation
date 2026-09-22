@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&family=Great+Vibes&display=swap");
 
 /* =========================================================
-   VARIABLES
+   ROOT
 ========================================================= */
 
 :root {
@@ -27,9 +27,9 @@
 ========================================================= */
 
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 html {
@@ -44,8 +44,13 @@ body {
     overflow-x: hidden;
 }
 
-button {
+button,
+a {
     font-family: inherit;
+}
+
+button {
+    border: 0;
 }
 
 img {
@@ -53,9 +58,19 @@ img {
     display: block;
 }
 
-::selection {
-    background: var(--burgundy);
-    color: white;
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+/* =========================================================
+   APP
+========================================================= */
+
+.app {
+    min-height: 100vh;
+    overflow: hidden;
 }
 
 
@@ -66,28 +81,32 @@ img {
 .door-screen {
     position: fixed;
     inset: 0;
+    z-index: 99999;
     width: 100%;
     height: 100vh;
-    height: 100dvh;
-    background: radial-gradient( circle at center, #651d2d 0%, #3a0d18 45%, #1c080d 100%);
-    z-index: 9999;
     overflow: hidden;
-    perspective: 1800px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient( circle at center, rgba(125, 46, 62, 0.35), transparent 42%), radial-gradient( circle at 20% 20%, rgba(184, 148, 82, 0.08), transparent 35%), linear-gradient( 135deg, #17070d, #3a0d18 50%, #16060c);
+    color: var(--white);
 }
 
 
 /* =========================================================
-   DOOR BACKGROUND GLOW
+   DOOR BACKGROUND
 ========================================================= */
 
 .door-bg-glow {
     position: absolute;
-    width: 700px;
-    height: 700px;
+    width: 650px;
+    height: 650px;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    background: radial-gradient( circle, rgba(216, 191, 124, 0.14), transparent 65%);
+    border-radius: 50%;
+    background: radial-gradient( circle, rgba(216, 191, 124, 0.12), transparent 65%);
+    filter: blur(10px);
     pointer-events: none;
 }
 
@@ -96,192 +115,219 @@ img {
    STARS
 ========================================================= */
 
+.door-stars {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    color: rgba(216, 191, 124, 0.55);
+    font-family: "Cormorant Garamond", serif;
+}
+
 .door-stars span {
     position: absolute;
-    color: var(--gold-light);
-    opacity: 0.5;
-    font-size: 14px;
-    animation: sparkle 3s ease-in-out infinite;
+    animation: starFloat 5s ease-in-out infinite, starPulse 3s ease-in-out infinite;
 }
 
 .door-stars span:nth-child(1) {
-    left: 10%;
-    top: 20%;
+    left: 12%;
+    top: 18%;
+    font-size: 15px;
 }
 
 .door-stars span:nth-child(2) {
-    left: 20%;
-    top: 70%;
+    left: 22%;
+    top: 72%;
+    font-size: 12px;
+    animation-delay: 0.8s;
 }
 
 .door-stars span:nth-child(3) {
-    left: 35%;
-    top: 15%;
+    left: 80%;
+    top: 18%;
+    font-size: 16px;
+    animation-delay: 1.2s;
 }
 
 .door-stars span:nth-child(4) {
-    left: 75%;
-    top: 18%;
+    left: 88%;
+    top: 68%;
+    font-size: 10px;
+    animation-delay: 1.8s;
 }
 
 .door-stars span:nth-child(5) {
-    left: 90%;
-    top: 38%;
+    left: 74%;
+    top: 78%;
+    font-size: 13px;
+    animation-delay: 2.2s;
 }
 
 .door-stars span:nth-child(6) {
-    left: 82%;
-    top: 75%;
+    left: 30%;
+    top: 12%;
+    font-size: 11px;
+    animation-delay: 2.8s;
 }
 
 .door-stars span:nth-child(7) {
-    left: 65%;
-    top: 88%;
+    left: 9%;
+    top: 48%;
+    font-size: 9px;
+    animation-delay: 3s;
 }
 
 .door-stars span:nth-child(8) {
-    left: 8%;
-    top: 45%;
+    left: 91%;
+    top: 42%;
+    font-size: 11px;
+    animation-delay: 3.5s;
 }
 
-@keyframes sparkle {
+@keyframes starFloat {
     0%,
     100% {
-        opacity: 0.2;
-        transform: scale(0.8);
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+@keyframes starPulse {
+    0%,
+    100% {
+        opacity: 0.35;
     }
     50% {
         opacity: 1;
-        transform: scale(1.3);
     }
 }
 
 
 /* =========================================================
-   DOOR TOP CONTENT
+   DOOR CONTENT BEHIND DOORS
 ========================================================= */
 
 .door-content {
     position: absolute;
     left: 50%;
-    top: 7%;
-    transform: translateX(-50%);
-    width: min(90%, 800px);
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: min(700px, 85vw);
     text-align: center;
-    color: white;
-    z-index: 2;
+    color: var(--gold-light);
+    z-index: 1;
+    pointer-events: none;
 }
 
 .door-eyebrow {
-    font-family: "DM Sans", sans-serif;
-    font-size: 11px;
-    letter-spacing: 4px;
-    color: var(--gold-light);
-    margin-bottom: 20px;
+    font-size: 10px;
+    letter-spacing: 0.38em;
+    margin-bottom: 22px;
+    color: rgba(255, 255, 255, 0.72);
 }
 
 .door-ornament {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 25px;
     color: var(--gold-light);
-    font-size: 18px;
-    margin-bottom: 15px;
+    margin-bottom: 14px;
 }
 
 .door-request {
     font-family: "Cormorant Garamond", serif;
-    font-size: 22px;
+    font-size: clamp(18px, 2vw, 24px);
     font-style: italic;
-    color: #eee2ca;
-    margin-bottom: 12px;
+    color: rgba(255, 255, 255, 0.82);
+    margin-bottom: 15px;
 }
 
 .door-heading {
-    font-size: 10px;
-    letter-spacing: 4px;
-    color: rgba(255, 255, 255, 0.72);
-    margin-bottom: 15px;
+    font-size: 9px;
+    letter-spacing: 0.35em;
+    color: rgba(255, 255, 255, 0.58);
+    margin-bottom: 18px;
 }
 
 .door-names {
     font-family: "Great Vibes", cursive;
-    font-size: clamp(42px, 6vw, 70px);
-    color: #fff4dc;
+    font-size: clamp(55px, 8vw, 95px);
     line-height: 1;
+    color: var(--gold-light);
+    text-shadow: 0 5px 30px rgba(0, 0, 0, 0.4);
 }
 
 .door-names span {
     font-family: "Cormorant Garamond", serif;
-    font-size: 0.5em;
-    color: var(--gold-light);
-    margin: 0 10px;
+    font-size: 0.45em;
+    margin: 0 12px;
+    color: var(--white);
 }
 
 .door-date {
-    margin-top: 12px;
-    font-family: "Cormorant Garamond", serif;
-    font-size: 18px;
-    letter-spacing: 5px;
-    color: var(--gold-light);
+    margin-top: 22px;
+    font-size: 10px;
+    letter-spacing: 0.45em;
+    color: rgba(255, 255, 255, 0.75);
 }
 
 
 /* =========================================================
-   LUXURY DOOR
+   LUXURY DOUBLE DOOR
 ========================================================= */
 
 .luxury-door {
     position: absolute;
     left: 50%;
     bottom: 0;
+    width: min(760px, 92vw);
+    height: min(760px, 86vh);
     transform: translateX(-50%);
-    width: min(850px, 92vw);
-    height: 54vh;
-    min-height: 360px;
-    background: linear-gradient( 135deg, #7b2739, #4a101d 45%, #651d2d);
-    border: 1px solid rgba(216, 191, 124, 0.5);
-    box-shadow: 0 0 0 10px rgba(184, 148, 82, 0.06), 0 -20px 80px rgba(0, 0, 0, 0.35);
-    transform-style: preserve-3d;
+    perspective: 1800px;
+    z-index: 5;
 }
 
 
 /* =========================================================
-   CENTER CONTENT
+   INSIDE CONTENT
 ========================================================= */
 
 .door-center-content {
     position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
     text-align: center;
+    z-index: 1;
     color: var(--gold-light);
-    background: radial-gradient( circle at center, rgba(216, 191, 124, 0.12), transparent 50%);
+    pointer-events: none;
 }
 
 .door-monogram {
     font-family: "Cormorant Garamond", serif;
     font-size: 70px;
-    letter-spacing: 10px;
-    color: var(--gold-light);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.05em;
 }
 
 .door-monogram span {
-    font-size: 0.5em;
+    font-size: 0.45em;
     margin: 0 5px;
 }
 
 .door-inside-text {
-    margin-top: 8px;
-    font-size: 10px;
-    letter-spacing: 5px;
-    color: rgba(255, 255, 255, 0.7);
+    margin-top: 18px;
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    color: rgba(255, 255, 255, 0.75);
 }
 
 .door-inside-date {
-    margin-top: 10px;
-    font-family: "Cormorant Garamond", serif;
-    letter-spacing: 4px;
+    margin-top: 12px;
+    font-size: 10px;
+    letter-spacing: 0.25em;
     color: var(--gold-light);
 }
 
@@ -295,12 +341,17 @@ img {
     top: 0;
     width: 50%;
     height: 100%;
-    transition: transform 1.8s cubic-bezier(0.77, 0, 0.18, 1);
+    transition: transform 1.8s cubic-bezier( 0.77, 0, 0.18, 1);
     transform-style: preserve-3d;
     backface-visibility: hidden;
     z-index: 5;
     will-change: transform;
 }
+
+
+/* =========================================================
+   LEFT DOOR
+========================================================= */
 
 .left-door {
     left: 0;
@@ -308,11 +359,24 @@ img {
     transform: translateZ(0) rotateY(0deg);
 }
 
+
+/* =========================================================
+   RIGHT DOOR
+========================================================= */
+
 .right-door {
     right: 0;
     transform-origin: right center;
     transform: translateZ(0) rotateY(0deg);
 }
+
+
+/* =========================================================
+   OPENING ANIMATION
+
+   IMPORTANT:
+   These rules must appear AFTER the base door rules.
+========================================================= */
 
 .door-opening .left-door {
     transform: translateZ(0) rotateY(-115deg);
@@ -324,124 +388,136 @@ img {
 
 
 /* =========================================================
-   DOOR PANEL
+   DOOR INNER
 ========================================================= */
 
-.door-panel {
-    width: 100%;
-    height: 100%;
-    padding: 22px;
-    background: linear-gradient( 135deg, #79283a 0%, #5b1727 45%, #7c293c 100%);
-    border-right: 1px solid rgba(216, 191, 124, 0.4);
+.door-inner {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background: linear-gradient( 135deg, #2a0912, #671d2d 45%, #3d101b 100%);
+    border: 1px solid rgba(216, 191, 124, 0.55);
+    box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.38), inset 0 0 15px rgba(216, 191, 124, 0.12), 0 15px 50px rgba(0, 0, 0, 0.3);
+    backface-visibility: hidden;
 }
 
-.panel-border {
-    width: 100%;
-    height: 100%;
-    border: 1px solid rgba(216, 191, 124, 0.6);
-    padding: 12px;
+
+/* =========================================================
+   DOOR INNER GLOW
+========================================================= */
+
+.door-inner::before {
+    content: "";
+    position: absolute;
+    inset: 10px;
+    border: 1px solid rgba(216, 191, 124, 0.18);
+    pointer-events: none;
 }
 
-.panel-inner {
-    width: 100%;
+.door-inner::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 1px;
     height: 100%;
-    border: 1px solid rgba(216, 191, 124, 0.25);
-    position: relative;
+    background: linear-gradient( to bottom, transparent, rgba(216, 191, 124, 0.4), transparent);
+    opacity: 0.45;
+}
+
+
+/* =========================================================
+   DOOR BORDER
+========================================================= */
+
+.door-border {
+    position: absolute;
+    inset: 28px;
+    border: 1px solid rgba(216, 191, 124, 0.65);
+    padding: 20px;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.door-border::before {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(216, 191, 124, 0.18);
+}
+
+
+/* =========================================================
+   DOOR PANELS
+========================================================= */
+
+.door-panel-top,
+.door-panel-bottom {
+    position: absolute;
+    left: 18%;
+    right: 18%;
+    height: 28%;
+    border: 1px solid rgba(216, 191, 124, 0.28);
+    background: linear-gradient( 135deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.08));
+}
+
+.door-panel-top {
+    top: 8%;
+}
+
+.door-panel-bottom {
+    bottom: 8%;
+}
+
+.door-panel-center {
+    position: absolute;
+    left: 18%;
+    right: 18%;
+    top: 39%;
+    height: 22%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(216, 191, 124, 0.4);
 }
 
-.door-panel-symbol {
-    font-family: "Great Vibes", cursive;
-    font-size: 90px;
-    color: rgba(216, 191, 124, 0.75);
+.door-flower {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 55px;
+    color: var(--gold-light);
+    transform: rotate(-35deg);
+    opacity: 0.9;
 }
 
 .door-panel-line {
-    width: 60px;
+    width: 65px;
     height: 1px;
     background: var(--gold-light);
-    margin: 8px 0 15px;
-}
-
-.door-panel-text {
-    font-family: "Cormorant Garamond", serif;
-    font-size: 11px;
-    letter-spacing: 4px;
-    color: rgba(255, 244, 220, 0.7);
+    opacity: 0.5;
+    margin-top: 8px;
 }
 
 
 /* =========================================================
-   CORNERS
-========================================================= */
-
-.door-corner {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    border-color: rgba(216, 191, 124, 0.7);
-    border-style: solid;
-}
-
-.top-left {
-    top: 15px;
-    left: 15px;
-    border-width: 1px 0 0 1px;
-}
-
-.top-right {
-    top: 15px;
-    right: 15px;
-    border-width: 1px 1px 0 0;
-}
-
-.bottom-left {
-    bottom: 15px;
-    left: 15px;
-    border-width: 0 0 1px 1px;
-}
-
-.bottom-right {
-    bottom: 15px;
-    right: 15px;
-    border-width: 0 1px 1px 0;
-}
-
-
-/* =========================================================
-   DOOR HANDLES
+   DOOR HANDLE
 ========================================================= */
 
 .door-handle {
     position: absolute;
     top: 50%;
-    width: 16px;
-    height: 60px;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 30px;
+    color: var(--gold-light);
+    text-shadow: 0 0 15px rgba(216, 191, 124, 0.5);
     transform: translateY(-50%);
-    border: 1px solid var(--gold-light);
-    border-radius: 20px;
     z-index: 10;
 }
 
-.door-handle span {
-    position: absolute;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--gold-light);
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.right-handle {
+.left-door .door-handle {
     right: 18px;
 }
 
-.left-handle {
+.right-door .door-handle {
     left: 18px;
 }
 
@@ -453,30 +529,44 @@ img {
 .open-button {
     position: absolute;
     left: 50%;
-    bottom: 28px;
+    bottom: 45px;
     transform: translateX(-50%);
     z-index: 20;
-    border: 1px solid rgba(216, 191, 124, 0.8);
-    background: rgba(58, 13, 24, 0.9);
-    color: #fff4dc;
-    padding: 13px 25px;
+    min-width: 205px;
+    padding: 15px 25px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
+    gap: 12px;
+    border: 1px solid rgba(216, 191, 124, 0.65);
+    border-radius: 50px;
+    background: rgba(35, 7, 15, 0.75);
+    color: var(--gold-light);
     font-size: 11px;
-    letter-spacing: 2px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
     cursor: pointer;
-    transition: var(--transition);
+    backdrop-filter: blur(8px);
+    transition: all 0.35s ease;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
 }
 
 .open-button:hover {
-    background: var(--gold-light);
+    background: var(--gold);
     color: var(--burgundy-dark);
-    transform: translateX(-50%) translateY(-3px);
+    border-color: var(--gold);
+    transform: translateX(-50%) translateY(-4px);
+    box-shadow: 0 15px 40px rgba(184, 148, 82, 0.25);
 }
 
 .open-heart {
-    font-size: 20px;
+    font-size: 19px;
+    line-height: 1;
+    transition: transform 0.35s ease;
+}
+
+.open-button:hover .open-heart {
+    transform: scale(1.2);
 }
 
 
@@ -486,12 +576,25 @@ img {
 
 .door-footer {
     position: absolute;
-    bottom: 18px;
     left: 50%;
+    bottom: 18px;
     transform: translateX(-50%);
-    color: rgba(255, 255, 255, 0.55);
-    font-size: 9px;
-    letter-spacing: 4px;
+    z-index: 30;
+    font-size: 8px;
+    letter-spacing: 0.45em;
+    color: rgba(255, 255, 255, 0.45);
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   MAIN INVITATION
+========================================================= */
+
+.invitation {
+    position: relative;
+    min-height: 100vh;
+    background: var(--ivory);
 }
 
 
@@ -504,65 +607,74 @@ img {
     top: 0;
     left: 0;
     width: 100%;
-    height: 80px;
-    z-index: 100;
+    height: 82px;
+    padding: 0 6vw;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 5%;
-    transition: var(--transition);
-    color: white;
+    z-index: 1000;
+    transition: all 0.4s ease;
+    color: var(--white);
 }
 
 .navbar-scrolled {
     height: 68px;
-    background: rgba(58, 13, 24, 0.96);
+    color: var(--text);
+    background: rgba(248, 244, 236, 0.96);
     backdrop-filter: blur(15px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
 }
 
 .nav-logo {
     font-family: "Cormorant Garamond", serif;
     font-size: 28px;
-    letter-spacing: 4px;
-    cursor: pointer;
+    font-weight: 600;
+    letter-spacing: 0.05em;
 }
 
 .nav-logo span {
-    color: var(--gold-light);
-    font-size: 0.7em;
+    color: var(--gold);
 }
 
 .nav-links {
     display: flex;
-    gap: 28px;
+    align-items: center;
+    gap: 30px;
 }
 
 .nav-links button {
-    border: 0;
-    background: transparent;
+    position: relative;
+    background: none;
     color: inherit;
     font-size: 10px;
-    letter-spacing: 2px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
     cursor: pointer;
-    opacity: 0.85;
-    transition: var(--transition);
+    padding: 5px 0;
 }
 
-.nav-links button:hover {
-    color: var(--gold-light);
-    opacity: 1;
+.nav-links button::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 1px;
+    background: var(--gold);
+    transition: width 0.3s ease;
 }
 
-.nav-music {
-    width: 38px;
-    height: 38px;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    border-radius: 50%;
-    background: transparent;
-    color: white;
+.nav-links button:hover::after {
+    width: 100%;
+}
+
+.mobile-music {
+    display: none;
+    background: none;
+    color: inherit;
+    font-size: 20px;
     cursor: pointer;
-    font-size: 17px;
 }
 
 
@@ -570,474 +682,127 @@ img {
    HERO
 ========================================================= */
 
-.hero {
+.hero-section {
     position: relative;
     min-height: 100vh;
-    min-height: 100dvh;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    color: white;
+    color: var(--white);
 }
 
 .hero-background {
     position: absolute;
     inset: 0;
-    background: linear-gradient( rgba(58, 13, 24, 0.3), rgba(58, 13, 24, 0.5)), url("/images/couple-2.jpeg") center / cover no-repeat;
-    transform: scale(1.02);
+    z-index: 0;
+}
+
+.hero-background img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    animation: heroZoom 14s ease-out forwards;
+}
+
+@keyframes heroZoom {
+    from {
+        transform: scale(1.08);
+    }
+    to {
+        transform: scale(1);
+    }
 }
 
 .hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient( to bottom, rgba(30, 5, 12, 0.35), rgba(58, 13, 24, 0.45));
+    background: linear-gradient( 180deg, rgba(22, 7, 12, 0.45), rgba(22, 7, 12, 0.25) 40%, rgba(22, 7, 12, 0.72));
+    z-index: 1;
 }
 
 .hero-content {
     position: relative;
     z-index: 2;
-    width: 100%;
-    max-width: 1100px;
-    padding: 100px 25px 50px;
+    width: min(900px, 90vw);
     text-align: center;
 }
 
-.hero-eyebrow {
+.hero-small {
     font-size: 10px;
-    letter-spacing: 5px;
-    color: #fff4dc;
-    margin-bottom: 15px;
+    letter-spacing: 0.4em;
+    margin-bottom: 25px;
+    opacity: 0.85;
 }
 
-.hero-small-line {
+.hero-ornament {
     color: var(--gold-light);
-    font-size: 17px;
-    margin-bottom: 15px;
+    font-size: 22px;
+    margin-bottom: 20px;
 }
 
-
-/* =========================================================
-   HERO TITLE
-   OLD FONT DESIGN + CENTERED STACK
-========================================================= */
+.hero-invite {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 22px;
+    font-style: italic;
+    opacity: 0.92;
+    margin-bottom: 15px;
+}
 
 .hero-title {
     font-family: "Great Vibes", cursive;
-    font-size: clamp(65px, 11vw, 145px);
+    font-size: clamp(65px, 10vw, 125px);
     font-weight: 400;
-    line-height: 0.82;
-    color: #fff4dc;
-    text-shadow: 0 5px 30px rgba(0, 0, 0, 0.4);
-    margin: 10px auto 25px;
-    width: 100%;
+    line-height: 1;
+    color: var(--gold-light);
+    text-shadow: 0 5px 35px rgba(0, 0, 0, 0.3);
+}
+
+.animate-text span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: letterReveal 0.6s cubic-bezier( 0.22, 1, 0.36, 1) forwards;
+    animation-delay: calc( var(--char-index) * 0.045s);
+}
+
+@keyframes letterReveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hero-line {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    text-align: center;
+    gap: 18px;
+    margin: 25px auto;
 }
 
-.hero-name {
-    display: block;
-    width: 100%;
-    white-space: nowrap;
-    text-align: center;
+.hero-line span {
+    width: 90px;
+    height: 1px;
+    background: rgba(216, 191, 124, 0.7);
 }
 
-.hero-vignesh {
-    transform: none;
-}
-
-.hero-ramya {
-    transform: none;
-}
-
-.hero-ampersand {
-    display: block;
-    width: 100%;
-    font-family: "Cormorant Garamond", serif;
-    font-size: 0.38em;
-    line-height: 1;
-    font-weight: 500;
+.hero-line div {
     color: var(--gold-light);
-    margin: 8px 0;
-    text-align: center;
+    font-size: 15px;
 }
 
 .hero-date {
-    font-family: "Cormorant Garamond", serif;
-    font-size: 20px;
-    letter-spacing: 7px;
-    color: var(--gold-light);
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    margin-top: 15px;
 }
 
 .hero-location {
-    margin-top: 10px;
-    font-size: 10px;
-    letter-spacing: 4px;
-    color: rgba(255, 255, 255, 0.8);
-    text-transform: uppercase;
-}
-
-.hero-scroll-button {
-    margin-top: 50px;
-    border: 0;
-    background: transparent;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    font-size: 9px;
-    letter-spacing: 3px;
-}
-
-.scroll-arrow {
-    font-size: 24px;
-    color: var(--gold-light);
-    animation: scrollDown 1.8s ease-in-out infinite;
-}
-
-@keyframes scrollDown {
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(8px);
-    }
-}
-
-
-/* =========================================================
-   SECTIONS
-========================================================= */
-
-.section {
-    padding: 110px 6%;
-}
-
-.section-heading {
-    max-width: 800px;
-    margin: 0 auto 60px;
-    text-align: center;
-}
-
-.section-kicker {
-    font-size: 10px;
-    letter-spacing: 4px;
-    color: var(--gold-dark);
-    margin-bottom: 15px;
-}
-
-.section-heading h2,
-.story-content h2,
-.venue-content h2,
-.rsvp-card h2 {
-    font-family: "Cormorant Garamond", serif;
-    font-size: clamp(45px, 6vw, 72px);
-    font-weight: 400;
-    line-height: 0.95;
-    color: var(--burgundy);
-}
-
-.section-heading h2 span,
-.story-content h2 span,
-.venue-content h2 span,
-.rsvp-card h2 span {
-    display: block;
-    font-family: "Great Vibes", cursive;
-    font-size: 0.85em;
-    color: var(--gold-dark);
-    margin-top: 8px;
-}
-
-.gold-line {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 25px;
-    color: var(--gold);
-}
-
-.gold-line::before,
-.gold-line::after {
-    content: "";
-    width: 65px;
-    height: 1px;
-    background: var(--gold);
-}
-
-.gold-line.left {
-    justify-content: flex-start;
-}
-
-
-/* =========================================================
-   COUNTDOWN
-========================================================= */
-
-.countdown-section {
-    background: var(--ivory);
-}
-
-.countdown-grid {
-    max-width: 900px;
-    margin: auto;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-}
-
-.countdown-box {
-    text-align: center;
-    padding: 35px 15px;
-    border: 1px solid rgba(184, 148, 82, 0.35);
-    background: rgba(255, 255, 255, 0.45);
-}
-
-.countdown-box strong {
-    display: block;
-    font-family: "Cormorant Garamond", serif;
-    font-size: 55px;
-    font-weight: 400;
-    color: var(--burgundy);
-}
-
-.countdown-box span {
-    font-size: 9px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--text-light);
-}
-
-
-/* =========================================================
-   STORY
-========================================================= */
-
-.story-section {
-    background: var(--cream);
-}
-
-.story-container {
-    max-width: 1200px;
-    margin: auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: center;
-}
-
-.story-image img {
-    width: 100%;
-    height: 620px;
-    object-fit: cover;
-    box-shadow: var(--shadow);
-}
-
-.story-content h2 {
-    margin-bottom: 20px;
-}
-
-.story-content p {
-    color: var(--text-light);
-    line-height: 1.9;
-    margin: 20px 0;
-    max-width: 520px;
-}
-
-.story-signature {
-    margin-top: 30px;
-    font-family: "Great Vibes", cursive;
-    font-size: 42px;
-    color: var(--burgundy);
-}
-
-
-/* =========================================================
-   EVENTS
-========================================================= */
-
-.events-section {
-    background: var(--ivory);
-}
-
-.events-grid {
-    max-width: 1000px;
-    margin: auto;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
-}
-
-.event-card {
-    text-align: center;
-    padding: 55px 35px;
-    border: 1px solid rgba(184, 148, 82, 0.35);
-    background: white;
-    transition: var(--transition);
-}
-
-.event-card:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow);
-}
-
-.event-card.featured {
-    background: var(--burgundy);
-    color: white;
-    border-color: var(--burgundy);
-}
-
-.event-icon {
-    font-size: 30px;
-    color: var(--gold);
-    margin-bottom: 20px;
-}
-
-.event-date {
-    font-size: 10px;
-    letter-spacing: 3px;
-    color: var(--gold-dark);
-    margin-bottom: 12px;
-}
-
-.featured .event-date {
-    color: var(--gold-light);
-}
-
-.event-card h3 {
-    font-family: "Cormorant Garamond", serif;
-    font-size: 42px;
-    font-weight: 400;
-    color: var(--burgundy);
-    margin-bottom: 10px;
-}
-
-.featured h3 {
-    color: #fff4dc;
-}
-
-.event-time {
-    font-family: "Cormorant Garamond", serif;
-    font-size: 20px;
-    color: var(--gold-dark);
-}
-
-.featured .event-time {
-    color: var(--gold-light);
-}
-
-.event-card p {
-    margin: 20px auto;
-    max-width: 400px;
-    line-height: 1.8;
-    color: var(--text-light);
-}
-
-.featured p {
-    color: rgba(255, 255, 255, 0.75);
-}
-
-.event-location {
-    font-size: 10px;
-    letter-spacing: 2px;
-    color: var(--text-light);
-    text-transform: uppercase;
-}
-
-.featured .event-location {
-    color: rgba(255, 255, 255, 0.65);
-}
-
-
-/* =========================================================
-   GALLERY
-========================================================= */
-
-.gallery-section {
-    background: var(--cream);
-}
-
-.gallery-grid {
-    max-width: 1200px;
-    margin: auto;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: 280px;
-    gap: 15px;
-}
-
-.gallery-item {
-    overflow: hidden;
-    position: relative;
-}
-
-.gallery-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.gallery-item:hover img {
-    transform: scale(1.07);
-}
-
-.gallery-1 {
-    grid-column: span 2;
-    grid-row: span 2;
-}
-
-.gallery-4 {
-    grid-column: span 2;
-}
-
-.gallery-5 {
-    grid-row: span 2;
-}
-
-
-/* =========================================================
-   VENUE
-========================================================= */
-
-.venue-section {
-    background: var(--ivory);
-}
-
-.venue-container {
-    max-width: 1200px;
-    margin: auto;
-    display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: 80px;
-    align-items: center;
-}
-
-.venue-image img {
-    width: 100%;
-    height: 550px;
-    object-fit: cover;
-    box-shadow: var(--shadow);
-}
-
-.venue-content h3 {
-    font-family: "Cormorant Garamond", serif;
-    font-size: 32px;
-    color: var(--burgundy);
-    margin: 25px 0 10px;
-}
-
-.venue-content p {
-    color: var(--text-light);
-    line-height: 1.8;
-    margin: 15px 0;
-    max-width: 500px;
+    font-size: 12px;
+    margin-top: 12px;
+    opacity: 0.75;
 }
 
 
@@ -1045,153 +810,112 @@ img {
    BUTTON
 ========================================================= */
 
-.gold-button {
-    margin-top: 20px;
-    padding: 15px 28px;
+.primary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 180px;
+    padding: 14px 25px;
+    margin-top: 25px;
     border: 1px solid var(--gold);
     background: var(--burgundy);
-    color: white;
+    color: var(--white);
     font-size: 10px;
-    letter-spacing: 3px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
     cursor: pointer;
-    transition: var(--transition);
+    transition: all 0.35s ease;
 }
 
-.gold-button:hover {
+.primary-button:hover {
     background: var(--gold);
+    color: var(--burgundy-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+}
+
+
+/* =========================================================
+   SCROLL INDICATOR
+========================================================= */
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    font-size: 8px;
+    letter-spacing: 0.4em;
+    opacity: 0.7;
+}
+
+.scroll-indicator div {
+    width: 1px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.6);
+    animation: scrollLine 2s ease-in-out infinite;
+}
+
+@keyframes scrollLine {
+    0%,
+    100% {
+        transform: scaleY(0.5);
+        transform-origin: top;
+    }
+    50% {
+        transform: scaleY(1);
+        transform-origin: top;
+    }
+}
+
+
+/* =========================================================
+   COMMON SECTIONS
+========================================================= */
+
+.section-container {
+    width: min(1180px, 90vw);
+    margin: 0 auto;
+}
+
+.section-kicker {
+    font-size: 9px;
+    letter-spacing: 0.35em;
+    color: var(--gold-dark);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+}
+
+.section-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(42px, 5vw, 68px);
+    font-weight: 400;
+    line-height: 0.95;
     color: var(--burgundy-dark);
 }
 
-
-/* =========================================================
-   RSVP
-========================================================= */
-
-.rsvp-section {
-    background: linear-gradient( rgba(58, 13, 24, 0.92), rgba(58, 13, 24, 0.92)), url("/images/couple-4.jpeg") center / cover no-repeat;
+.section-title span {
+    display: block;
+    color: var(--burgundy);
+    font-style: italic;
 }
 
-.rsvp-card {
-    max-width: 700px;
-    margin: auto;
-    padding: 80px 30px;
+.section-header {
     text-align: center;
-    color: white;
+    max-width: 650px;
+    margin: 0 auto 65px;
 }
 
-.rsvp-card h2 {
-    color: #fff4dc;
-}
-
-.rsvp-card h2 span {
-    color: var(--gold-light);
-}
-
-.rsvp-card p {
-    max-width: 500px;
-    margin: 25px auto;
+.section-header>p {
+    margin-top: 20px;
+    color: var(--text-light);
+    font-size: 14px;
     line-height: 1.8;
-    color: rgba(255, 255, 255, 0.75);
-}
-
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-.footer {
-    padding: 70px 20px;
-    background: #250911;
-    color: white;
-    text-align: center;
-}
-
-.footer-monogram {
-    font-family: "Cormorant Garamond", serif;
-    font-size: 50px;
-    letter-spacing: 8px;
-    color: var(--gold-light);
-}
-
-.footer-monogram span {
-    font-size: 0.5em;
-}
-
-.footer-names {
-    margin-top: 10px;
-    font-family: "Great Vibes", cursive;
-    font-size: 48px;
-    color: #fff4dc;
-}
-
-.footer-date {
-    margin-top: 8px;
-    font-family: "Cormorant Garamond", serif;
-    letter-spacing: 5px;
-    color: var(--gold-light);
-}
-
-.footer-line {
-    margin: 25px auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    color: var(--gold);
-}
-
-.footer-line::before,
-.footer-line::after {
-    content: "";
-    width: 60px;
-    height: 1px;
-    background: var(--gold);
-}
-
-.footer p {
-    color: rgba(255, 255, 255, 0.55);
-    font-size: 11px;
-    letter-spacing: 2px;
-}
-
-
-/* =========================================================
-   FLOATING MUSIC
-========================================================= */
-
-.floating-music {
-    position: fixed;
-    right: 25px;
-    bottom: 25px;
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    border: 1px solid var(--gold-light);
-    background: var(--burgundy);
-    color: var(--gold-light);
-    font-size: 20px;
-    z-index: 90;
-    cursor: pointer;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    transition: var(--transition);
-}
-
-.floating-music:hover {
-    transform: scale(1.08);
-}
-
-.floating-music.playing {
-    animation: musicPulse 1.5s infinite;
-}
-
-@keyframes musicPulse {
-    0%,
-    100% {
-        box-shadow: 0 0 0 0 rgba(216, 191, 124, 0.35);
-    }
-    50% {
-        box-shadow: 0 0 0 12px rgba(216, 191, 124, 0);
-    }
 }
 
 
@@ -1201,8 +925,8 @@ img {
 
 .reveal {
     opacity: 0;
-    transform: translateY(35px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    transform: translateY(45px);
+    transition: opacity 0.9s ease, transform 0.9s cubic-bezier( 0.22, 1, 0.36, 1);
 }
 
 .reveal.visible {
@@ -1212,31 +936,566 @@ img {
 
 
 /* =========================================================
-   TABLET
+   COUNTDOWN
+========================================================= */
+
+.countdown-section {
+    padding: 115px 0;
+    background: var(--cream);
+    text-align: center;
+}
+
+.countdown {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    margin-top: 55px;
+}
+
+.count-box {
+    min-width: 105px;
+}
+
+.count-box strong {
+    display: block;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 58px;
+    font-weight: 400;
+    color: var(--burgundy);
+}
+
+.count-box span {
+    display: block;
+    margin-top: 4px;
+    font-size: 8px;
+    letter-spacing: 0.3em;
+    color: var(--text-light);
+}
+
+.count-separator {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 42px;
+    color: var(--gold);
+}
+
+
+/* =========================================================
+   STORY
+========================================================= */
+
+.story-section {
+    padding: 130px 0;
+}
+
+.story-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 90px;
+    align-items: center;
+}
+
+.story-image {
+    position: relative;
+}
+
+.image-frame {
+    position: relative;
+    padding: 16px;
+    border: 1px solid var(--gold);
+}
+
+.image-frame::before {
+    content: "";
+    position: absolute;
+    top: -18px;
+    left: -18px;
+    width: 80px;
+    height: 80px;
+    border-top: 1px solid var(--gold);
+    border-left: 1px solid var(--gold);
+}
+
+.image-frame::after {
+    content: "";
+    position: absolute;
+    right: -18px;
+    bottom: -18px;
+    width: 80px;
+    height: 80px;
+    border-right: 1px solid var(--gold);
+    border-bottom: 1px solid var(--gold);
+}
+
+.image-frame img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+}
+
+.story-content {
+    max-width: 540px;
+}
+
+.gold-line {
+    width: 70px;
+    height: 1px;
+    background: var(--gold);
+    margin: 30px 0;
+}
+
+.story-content p {
+    color: var(--text-light);
+    font-size: 15px;
+    line-height: 1.9;
+    margin-bottom: 18px;
+}
+
+.story-signature {
+    margin-top: 30px;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 19px !important;
+    color: var(--burgundy) !important;
+}
+
+.story-signature strong {
+    font-family: "Great Vibes", cursive;
+    font-size: 35px;
+    font-weight: 400;
+}
+
+
+/* =========================================================
+   EVENTS
+========================================================= */
+
+.events-section {
+    padding: 130px 0;
+    background: var(--cream);
+}
+
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.event-card {
+    position: relative;
+    padding: 55px 35px;
+    min-height: 410px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.58);
+    border: 1px solid rgba(184, 148, 82, 0.35);
+    transition: var(--transition);
+    overflow: hidden;
+}
+
+.event-card::before {
+    content: "";
+    position: absolute;
+    inset: 10px;
+    border: 1px solid rgba(184, 148, 82, 0.2);
+    pointer-events: none;
+}
+
+.event-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow);
+}
+
+.event-card.featured {
+    background: var(--burgundy);
+    color: var(--white);
+}
+
+.event-card.featured h3,
+.event-card.featured .event-date,
+.event-card.featured p,
+.event-card.featured .event-location {
+    color: var(--white);
+}
+
+.event-number {
+    position: absolute;
+    top: 25px;
+    left: 30px;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--gold-dark);
+}
+
+.event-card.featured .event-number {
+    color: var(--gold-light);
+}
+
+.event-icon {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 38px;
+    color: var(--gold);
+    margin-bottom: 25px;
+}
+
+.event-day {
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: var(--gold-dark);
+    margin-bottom: 12px;
+}
+
+.event-card.featured .event-day {
+    color: var(--gold-light);
+}
+
+.event-card h3 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 29px;
+    font-weight: 500;
+    color: var(--burgundy-dark);
+    margin-bottom: 20px;
+}
+
+.event-date {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--burgundy);
+    margin-bottom: 12px;
+}
+
+.event-card p {
+    font-size: 13px;
+    color: var(--text-light);
+    margin-bottom: 15px;
+}
+
+.event-location {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-light);
+}
+
+
+/* =========================================================
+   GALLERY
+========================================================= */
+
+.gallery-section {
+    padding: 130px 0;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 260px;
+    gap: 14px;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    background: var(--cream);
+}
+
+.gallery-item.large {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier( 0.22, 1, 0.36, 1);
+}
+
+.gallery-item::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient( 180deg, transparent, rgba(40, 10, 18, 0.35));
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.08);
+}
+
+.gallery-item:hover::after {
+    opacity: 1;
+}
+
+
+/* =========================================================
+   VENUE
+========================================================= */
+
+.venue-section {
+    position: relative;
+    min-height: 720px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    color: var(--white);
+}
+
+.venue-background {
+    position: absolute;
+    inset: 0;
+}
+
+.venue-background img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.venue-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient( 135deg, rgba(35, 8, 15, 0.88), rgba(60, 16, 28, 0.65));
+}
+
+.venue-content {
+    position: relative;
+    z-index: 2;
+    width: min(700px, 90vw);
+    text-align: center;
+}
+
+.venue-content .section-kicker {
+    color: var(--gold-light);
+}
+
+.venue-content .section-title {
+    color: var(--white);
+}
+
+.venue-content .section-title span {
+    color: var(--gold-light);
+}
+
+.venue-card {
+    margin-top: 50px;
+    padding: 55px 35px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(216, 191, 124, 0.45);
+    backdrop-filter: blur(12px);
+}
+
+.venue-icon {
+    font-size: 40px;
+    color: var(--gold-light);
+    margin-bottom: 20px;
+}
+
+.venue-card h3 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 32px;
+    font-weight: 400;
+    color: var(--gold-light);
+}
+
+.venue-card p {
+    margin-top: 18px;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.78);
+}
+
+.venue-card .primary-button {
+    margin-top: 30px;
+}
+
+
+/* =========================================================
+   RSVP
+========================================================= */
+
+.rsvp-section {
+    padding: 130px 0;
+    background: var(--ivory);
+}
+
+.rsvp-card {
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 90px 30px;
+    text-align: center;
+    background: var(--cream);
+    border: 1px solid rgba(184, 148, 82, 0.4);
+    position: relative;
+}
+
+.rsvp-card::before {
+    content: "";
+    position: absolute;
+    inset: 14px;
+    border: 1px solid rgba(184, 148, 82, 0.25);
+    pointer-events: none;
+}
+
+.rsvp-card p {
+    max-width: 500px;
+    margin: 25px auto 0;
+    color: var(--text-light);
+    line-height: 1.8;
+}
+
+.rsvp-heart {
+    margin-top: 30px;
+    color: var(--burgundy);
+    font-size: 25px;
+    animation: heartbeat 1.8s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.15);
+    }
+}
+
+.rsvp-card .primary-button {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer {
+    padding: 80px 20px;
+    text-align: center;
+    color: var(--white);
+    background: var(--burgundy-dark);
+}
+
+.footer-monogram {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 45px;
+    color: var(--gold-light);
+}
+
+.footer-monogram span {
+    font-size: 0.55em;
+}
+
+.footer h2 {
+    margin-top: 18px;
+    font-family: "Great Vibes", cursive;
+    font-size: 45px;
+    font-weight: 400;
+    color: var(--gold-light);
+}
+
+.footer p {
+    margin-top: 12px;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 18px;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.footer-line {
+    margin: 25px auto;
+    color: var(--gold);
+}
+
+.footer-date {
+    font-size: 9px;
+    letter-spacing: 0.35em;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+
+/* =========================================================
+   MUSIC BUTTON
+========================================================= */
+
+.music-button {
+    position: fixed;
+    right: 28px;
+    bottom: 28px;
+    width: 55px;
+    height: 55px;
+    z-index: 1500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--burgundy);
+    color: var(--gold-light);
+    border: 1px solid var(--gold);
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: all 0.35s ease;
+}
+
+.music-button:hover {
+    transform: scale(1.08);
+    background: var(--gold);
+    color: var(--burgundy-dark);
+}
+
+.music-disc {
+    font-size: 22px;
+}
+
+.music-button.playing .music-disc {
+    animation: musicRotate 3s linear infinite;
+}
+
+@keyframes musicRotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE TABLET
 ========================================================= */
 
 @media (max-width: 900px) {
     .nav-links {
-        display: none;
+        gap: 18px;
     }
-    .story-container,
-    .venue-container {
+    .nav-links button {
+        font-size: 8px;
+    }
+    .story-grid {
         grid-template-columns: 1fr;
-        gap: 50px;
+        gap: 70px;
     }
-    .story-image img,
-    .venue-image img {
-        height: 500px;
+    .story-content {
+        max-width: 100%;
+        text-align: center;
+    }
+    .gold-line {
+        margin: 25px auto;
+    }
+    .events-grid {
+        grid-template-columns: 1fr;
+    }
+    .event-card {
+        min-height: 350px;
     }
     .gallery-grid {
         grid-template-columns: repeat(2, 1fr);
         grid-auto-rows: 260px;
     }
-    .gallery-1 {
+    .gallery-item.large {
         grid-column: span 2;
-        grid-row: span 1;
-    }
-    .gallery-5 {
         grid-row: span 1;
     }
 }
@@ -1247,228 +1506,194 @@ img {
 ========================================================= */
 
 @media (max-width: 650px) {
-    /* --------------------------------
-     DOOR
-  -------------------------------- */
     .door-content {
-        top: 5%;
-        width: 92%;
+        top: 16%;
     }
     .door-eyebrow {
-        font-size: 8px;
-        letter-spacing: 2.5px;
+        font-size: 7px;
+        letter-spacing: 0.25em;
         margin-bottom: 12px;
     }
     .door-request {
-        font-size: 17px;
+        font-size: 15px;
     }
     .door-heading {
-        font-size: 8px;
-        letter-spacing: 2px;
+        font-size: 7px;
+        letter-spacing: 0.2em;
     }
     .door-names {
-        font-size: 43px;
+        font-size: 52px;
     }
     .door-date {
-        font-size: 15px;
-        letter-spacing: 4px;
+        font-size: 8px;
+        letter-spacing: 0.3em;
     }
     .luxury-door {
-        width: 90vw;
-        height: 48vh;
-        min-height: 320px;
+        width: 94vw;
+        height: 62vh;
+        min-height: 430px;
     }
-    .door-panel {
-        padding: 12px;
+    .door-border {
+        inset: 15px;
+        padding: 10px;
     }
-    .panel-border {
-        padding: 7px;
+    .door-panel-top,
+    .door-panel-bottom {
+        left: 12%;
+        right: 12%;
     }
-    .door-panel-symbol {
-        font-size: 60px;
+    .door-panel-center {
+        left: 12%;
+        right: 12%;
     }
-    .door-panel-text {
-        font-size: 8px;
-        letter-spacing: 2px;
+    .door-flower {
+        font-size: 35px;
     }
     .door-handle {
-        width: 12px;
-        height: 48px;
+        font-size: 22px;
     }
-    .right-handle {
-        right: 8px;
+    .left-door .door-handle {
+        right: 9px;
     }
-    .left-handle {
-        left: 8px;
+    .right-door .door-handle {
+        left: 9px;
+    }
+    .door-monogram {
+        font-size: 48px;
+    }
+    .door-inside-text {
+        font-size: 7px;
+        letter-spacing: 0.25em;
+    }
+    .door-inside-date {
+        font-size: 8px;
     }
     .open-button {
-        bottom: 18px;
-        padding: 11px 18px;
+        bottom: 25px;
+        min-width: 180px;
+        padding: 13px 18px;
         font-size: 9px;
-        letter-spacing: 1.5px;
     }
     .door-footer {
-        bottom: 8px;
-        font-size: 7px;
-        letter-spacing: 3px;
+        display: none;
     }
-    /* --------------------------------
-     NAVBAR
-  -------------------------------- */
+    /* NAV */
     .navbar {
         height: 65px;
         padding: 0 20px;
     }
+    .navbar-scrolled {
+        height: 60px;
+    }
+    .nav-links {
+        display: none;
+    }
     .nav-logo {
-        font-size: 24px;
+        font-size: 25px;
     }
-    /* --------------------------------
-     HERO
-  -------------------------------- */
+    .mobile-music {
+        display: block;
+    }
+    /* HERO */
     .hero-content {
-        padding: 90px 15px 40px;
+        padding: 0 15px;
     }
-    .hero-eyebrow {
-        font-size: 8px;
-        letter-spacing: 3px;
-        margin-bottom: 10px;
+    .hero-small {
+        font-size: 7px;
+        letter-spacing: 0.25em;
     }
-    .hero-small-line {
-        margin-bottom: 8px;
+    .hero-invite {
+        font-size: 18px;
     }
-    /*
-     OLD FONT:
-     Great Vibes is retained.
-
-     Mobile layout:
-
-              Vignesh
-                 &
-               Ramya
-  */
     .hero-title {
-        font-family: "Great Vibes", cursive;
-        font-size: clamp( 55px, 17vw, 85px);
-        font-weight: 400;
-        line-height: 0.85;
-        margin: 5px auto 25px;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
+        font-size: 65px;
     }
-    .hero-name {
-        display: block;
-        width: 100%;
-        white-space: nowrap;
-        text-align: center;
-        transform: none !important;
-    }
-    .hero-ampersand {
-        display: block;
-        width: 100%;
-        font-family: "Cormorant Garamond", serif;
-        font-size: 30px;
-        line-height: 1;
-        font-weight: 500;
-        margin: 7px 0;
-        color: var(--gold-light);
-        text-align: center;
+    .hero-line span {
+        width: 50px;
     }
     .hero-date {
-        font-size: 16px;
-        letter-spacing: 5px;
+        font-size: 9px;
+        letter-spacing: 0.25em;
     }
-    .hero-location {
-        font-size: 8px;
-        letter-spacing: 3px;
+    /* SECTIONS */
+    .section-container {
+        width: 88vw;
     }
-    .hero-scroll-button {
-        margin-top: 35px;
+    .section-title {
+        font-size: 44px;
     }
-    /* --------------------------------
-     SECTION
-  -------------------------------- */
-    .section {
-        padding: 80px 20px;
+    .countdown-section,
+    .story-section,
+    .events-section,
+    .gallery-section,
+    .rsvp-section {
+        padding: 90px 0;
     }
-    .section-heading {
-        margin-bottom: 45px;
+    /* COUNTDOWN */
+    .countdown {
+        gap: 8px;
+        margin-top: 40px;
     }
-    .section-heading h2,
-    .story-content h2,
-    .venue-content h2,
-    .rsvp-card h2 {
-        font-size: 48px;
+    .count-box {
+        min-width: 60px;
     }
-    /* --------------------------------
-     COUNTDOWN
-  -------------------------------- */
-    .countdown-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
+    .count-box strong {
+        font-size: 35px;
     }
-    .countdown-box {
-        padding: 25px 10px;
+    .count-box span {
+        font-size: 6px;
+        letter-spacing: 0.15em;
     }
-    .countdown-box strong {
-        font-size: 42px;
+    .count-separator {
+        font-size: 25px;
     }
-    /* --------------------------------
-     STORY
-  -------------------------------- */
-    .story-image img,
-    .venue-image img {
-        height: 430px;
+    /* STORY */
+    .story-grid {
+        gap: 50px;
     }
     .story-content p {
         font-size: 14px;
     }
-    /* --------------------------------
-     EVENTS
-  -------------------------------- */
-    .events-grid {
-        grid-template-columns: 1fr;
-    }
+    /* EVENTS */
     .event-card {
-        padding: 45px 25px;
+        padding: 50px 25px;
     }
-    /* --------------------------------
-     GALLERY
-  -------------------------------- */
+    /* GALLERY */
     .gallery-grid {
-        grid-template-columns: repeat(2, 1fr);
-        grid-auto-rows: 190px;
-        gap: 8px;
+        grid-template-columns: 1fr;
+        grid-auto-rows: 280px;
     }
-    .gallery-1 {
-        grid-column: span 2;
-    }
-    .gallery-4 {
+    .gallery-item.large {
         grid-column: span 1;
+        grid-row: span 1;
     }
-    /* --------------------------------
-     VENUE
-  -------------------------------- */
-    .venue-content p {
-        font-size: 14px;
+    /* VENUE */
+    .venue-section {
+        min-height: 650px;
     }
-    /* --------------------------------
-     FOOTER
-  -------------------------------- */
-    .footer-names {
-        font-size: 42px;
+    .venue-card {
+        padding: 45px 20px;
     }
-    /* --------------------------------
-     MUSIC
-  -------------------------------- */
-    .floating-music {
+    /* RSVP */
+    .rsvp-card {
+        padding: 70px 20px;
+    }
+    /* MUSIC */
+    .music-button {
         right: 18px;
         bottom: 18px;
-        width: 46px;
-        height: 46px;
+        width: 48px;
+        height: 48px;
+    }
+    .music-disc {
+        font-size: 19px;
+    }
+    /* FOOTER */
+    .footer {
+        padding: 65px 20px;
+    }
+    .footer h2 {
+        font-size: 38px;
     }
 }
 
@@ -1478,32 +1703,23 @@ img {
 ========================================================= */
 
 @media (max-width: 400px) {
-    .hero-title {
-        font-size: 62px;
-        line-height: 0.82;
-    }
-    .hero-ampersand {
-        font-size: 27px;
-        margin: 6px 0;
-    }
-    .hero-date {
-        font-size: 14px;
-        letter-spacing: 4px;
-    }
     .door-names {
-        font-size: 38px;
+        font-size: 45px;
     }
     .luxury-door {
-        height: 45vh;
+        height: 58vh;
     }
-    .section-heading h2,
-    .story-content h2,
-    .venue-content h2,
-    .rsvp-card h2 {
-        font-size: 43px;
+    .hero-title {
+        font-size: 55px;
     }
-    .gallery-grid {
-        grid-auto-rows: 160px;
+    .count-box {
+        min-width: 52px;
+    }
+    .count-box strong {
+        font-size: 30px;
+    }
+    .count-separator {
+        font-size: 20px;
     }
 }
 
@@ -1513,12 +1729,14 @@ img {
 ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
     *,
     *::before,
     *::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
-        scroll-behavior: auto !important;
         transition-duration: 0.01ms !important;
     }
 }

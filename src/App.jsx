@@ -4,6 +4,10 @@ import "./App.css";
 const BASE_URL = import.meta.env.BASE_URL;
 
 function App() {
+  /* =========================================================
+     STATES
+  ========================================================= */
+
   const [showDoor, setShowDoor] = useState(true);
   const [opening, setOpening] = useState(false);
   const [opened, setOpened] = useState(false);
@@ -12,96 +16,181 @@ function App() {
 
   const audioRef = useRef(null);
 
+  /* =========================================================
+     WEDDING DATE
+  ========================================================= */
+
   const weddingDate = new Date("2027-02-14T09:00:00");
 
-  const [countdown, setCountdown] = useState({
+  /* =========================================================
+     COUNTDOWN STATE
+  ========================================================= */
+
+  const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
     minutes: 0,
     seconds: 0,
   });
 
-  /* =========================
+  /* =========================================================
      COUNTDOWN
-  ========================= */
+  ========================================================= */
 
   useEffect(() => {
     const updateCountdown = () => {
       const now = new Date();
-      const difference = weddingDate.getTime() - now.getTime();
+
+      const difference =
+        weddingDate.getTime() - now.getTime();
 
       if (difference <= 0) {
-        setCountdown({
+        setTimeLeft({
           days: 0,
           hours: 0,
           minutes: 0,
           seconds: 0,
         });
+
         return;
       }
 
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor(
-        (difference / (1000 * 60 * 60)) % 24
-      );
-      const minutes = Math.floor(
-        (difference / (1000 * 60)) % 60
-      );
-      const seconds = Math.floor(
-        (difference / 1000) % 60
-      );
+      setTimeLeft({
+        days: Math.floor(
+          difference / (1000 * 60 * 60 * 24)
+        ),
 
-      setCountdown({
-        days,
-        hours,
-        minutes,
-        seconds,
+        hours: Math.floor(
+          (difference / (1000 * 60 * 60)) % 24
+        ),
+
+        minutes: Math.floor(
+          (difference / (1000 * 60)) % 60
+        ),
+
+        seconds: Math.floor(
+          (difference / 1000) % 60
+        ),
       });
     };
 
     updateCountdown();
 
-    const timer = setInterval(updateCountdown, 1000);
+    const timer = setInterval(
+      updateCountdown,
+      1000
+    );
 
     return () => clearInterval(timer);
   }, []);
 
-  /* =========================
-     SCROLL
-  ========================= */
+  /* =========================================================
+     SCROLL REVEAL
+  ========================================================= */
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 60);
+      setScrolled(window.scrollY > 40);
 
-      const elements = document.querySelectorAll(".reveal");
+      document
+        .querySelectorAll(".reveal")
+        .forEach((element) => {
+          const rect =
+            element.getBoundingClientRect();
 
-      elements.forEach((element) => {
-        const rect = element.getBoundingClientRect();
-
-        if (rect.top < window.innerHeight - 80) {
-          element.classList.add("visible");
-        }
-      });
+          if (
+            rect.top <
+            window.innerHeight * 0.88
+          ) {
+            element.classList.add("visible");
+          }
+        });
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener(
+      "scroll",
+      handleScroll
+    );
 
     handleScroll();
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener(
+        "scroll",
+        handleScroll
+      );
     };
   }, [opened]);
 
-  /* =========================
-     OPEN INVITATION
-  ========================= */
+  /* =========================================================
+     TEXT LETTER ANIMATION
+  ========================================================= */
+
+  useEffect(() => {
+    if (!opened) return;
+
+    const elements =
+      document.querySelectorAll(
+        ".animate-text"
+      );
+
+    elements.forEach((element) => {
+      if (
+        element.dataset.animated ===
+        "true"
+      ) {
+        return;
+      }
+
+      const text =
+        element.textContent.trim();
+
+      element.innerHTML = "";
+
+      [...text].forEach(
+        (char, index) => {
+          const span =
+            document.createElement(
+              "span"
+            );
+
+          span.textContent =
+            char === " "
+              ? "\u00A0"
+              : char;
+
+          span.style.setProperty(
+            "--char-index",
+            index
+          );
+
+          element.appendChild(span);
+        }
+      );
+
+      element.dataset.animated =
+        "true";
+    });
+  }, [opened]);
+
+  /* =========================================================
+     OPEN DOOR
+  ========================================================= */
 
   const openInvitation = () => {
+    // Prevent multiple clicks
     if (opening) return;
 
+    // Start CSS door animation
     setOpening(true);
+
+    /*
+      CSS animation duration:
+      1.8 seconds
+
+      Keep door mounted during animation.
+      Remove it after animation finishes.
+    */
 
     setTimeout(() => {
       setShowDoor(false);
@@ -114,9 +203,9 @@ function App() {
     }, 1800);
   };
 
-  /* =========================
+  /* =========================================================
      MUSIC
-  ========================= */
+  ========================================================= */
 
   const toggleMusic = async () => {
     if (!audioRef.current) return;
@@ -124,85 +213,105 @@ function App() {
     try {
       if (musicPlaying) {
         audioRef.current.pause();
+
         setMusicPlaying(false);
       } else {
         await audioRef.current.play();
+
         setMusicPlaying(true);
       }
     } catch (error) {
-      console.log("Music playback blocked:", error);
+      console.log(
+        "Music playback failed:",
+        error
+      );
     }
   };
 
-  /* =========================
+  /* =========================================================
      NAVIGATION
-  ========================= */
+  ========================================================= */
 
   const scrollToSection = (id) => {
-    const element = document.getElementById(id);
-
-    if (element) {
-      element.scrollIntoView({
+    document
+      .getElementById(id)
+      ?.scrollIntoView({
         behavior: "smooth",
-        block: "start",
       });
-    }
   };
 
-  /* =========================
-     MAP
-  ========================= */
+  /* =========================================================
+     GOOGLE MAP
+  ========================================================= */
 
   const openMap = () => {
     window.open(
-      "https://www.google.com/maps/search/?api=1&query=Madurai",
+      "https://www.google.com/maps/search/?api=1&query=Madurai+Tamil+Nadu",
       "_blank"
     );
   };
 
+  /* =========================================================
+     RETURN
+  ========================================================= */
+
   return (
-    <>
-      {/* =========================
+    <div className="app">
+
+      {/* =====================================================
           BACKGROUND MUSIC
-      ========================= */}
+      ===================================================== */}
 
       <audio
         ref={audioRef}
-        src={`${BASE_URL}music/wedding-music.mp3`}
         loop
+        preload="auto"
+        src={`${BASE_URL}music/wedding-music.mp3`}
       />
 
-      {/* =========================
+      {/* =====================================================
           DOOR INTRO
-      ========================= */}
+      ===================================================== */}
 
       {showDoor && (
         <div
           className={`door-screen ${
-            opening ? "door-opening" : ""
+            opening
+              ? "door-opening"
+              : ""
           }`}
         >
+
+          {/* Background glow */}
+
           <div className="door-bg-glow" />
+
+          {/* Stars */}
 
           <div className="door-stars">
             <span>✦</span>
             <span>✧</span>
             <span>✦</span>
+            <span>·</span>
             <span>✧</span>
             <span>✦</span>
-            <span>✧</span>
-            <span>✦</span>
+            <span>·</span>
             <span>✧</span>
           </div>
 
-          {/* Door top invitation text */}
+          {/* =================================================
+              CONTENT BEHIND DOOR
+          ================================================= */}
 
           <div className="door-content">
+
             <div className="door-eyebrow">
               TOGETHER WITH THEIR FAMILIES
             </div>
 
-            <div className="door-ornament">✦</div>
+            <div className="door-ornament">
+              ✦
+            </div>
 
             <div className="door-request">
               Request the pleasure of your presence
@@ -213,25 +322,29 @@ function App() {
             </div>
 
             <div className="door-names">
-              Vignesh <span>&amp;</span> Ramya
+              Vignesh <span>&</span> Ramya
             </div>
 
             <div className="door-date">
               14 · 02 · 2027
             </div>
+
           </div>
 
-          {/* =========================
-              LUXURY DOUBLE DOOR
-          ========================= */}
+          {/* =================================================
+              DOUBLE DOOR
+          ================================================= */}
 
           <div className="luxury-door">
 
-            {/* Center text behind the doors */}
+            {/* =================================================
+                CONTENT INSIDE THE DOOR
+            ================================================= */}
 
             <div className="door-center-content">
+
               <div className="door-monogram">
-                V <span>&amp;</span> R
+                V <span>&</span> R
               </div>
 
               <div className="door-inside-text">
@@ -241,581 +354,828 @@ function App() {
               <div className="door-inside-date">
                 14 · 02 · 2027
               </div>
+
             </div>
 
-            {/* LEFT DOOR */}
+            {/* =================================================
+                LEFT DOOR
+            ================================================= */}
 
             <div className="door-side left-door">
-              <div className="door-panel">
-                <div className="panel-border">
-                  <div className="panel-inner">
 
-                    <div className="door-corner top-left" />
-                    <div className="door-corner top-right" />
-                    <div className="door-corner bottom-left" />
-                    <div className="door-corner bottom-right" />
+              <div className="door-inner">
 
-                    <div className="door-panel-symbol">
-                      V
+                <div className="door-border">
+
+                  <div className="door-panel-top" />
+
+                  <div className="door-panel-center">
+
+                    <div className="door-flower">
+                      ❧
                     </div>
 
                     <div className="door-panel-line" />
 
-                    <div className="door-panel-text">
-                      TOGETHER
-                    </div>
-
                   </div>
+
+                  <div className="door-panel-bottom" />
+
                 </div>
+
+                <div className="door-handle">
+                  ◇
+                </div>
+
               </div>
 
-              <div className="door-handle right-handle">
-                <span />
-              </div>
             </div>
 
-            {/* RIGHT DOOR */}
+            {/* =================================================
+                RIGHT DOOR
+            ================================================= */}
 
             <div className="door-side right-door">
-              <div className="door-panel">
-                <div className="panel-border">
-                  <div className="panel-inner">
 
-                    <div className="door-corner top-left" />
-                    <div className="door-corner top-right" />
-                    <div className="door-corner bottom-left" />
-                    <div className="door-corner bottom-right" />
+              <div className="door-inner">
 
-                    <div className="door-panel-symbol">
-                      R
+                <div className="door-border">
+
+                  <div className="door-panel-top" />
+
+                  <div className="door-panel-center">
+
+                    <div className="door-flower">
+                      ❧
                     </div>
 
                     <div className="door-panel-line" />
 
-                    <div className="door-panel-text">
-                      FOREVER
-                    </div>
-
                   </div>
+
+                  <div className="door-panel-bottom" />
+
                 </div>
+
+                <div className="door-handle">
+                  ◇
+                </div>
+
               </div>
 
-              <div className="door-handle left-handle">
-                <span />
-              </div>
             </div>
 
-            {/* OPEN BUTTON */}
+            {/* =================================================
+                OPEN BUTTON
+            ================================================= */}
 
             {!opening && (
               <button
                 className="open-button"
                 onClick={openInvitation}
               >
-                <span className="open-heart">♡</span>
-                <span>Open Invitation</span>
+                <span className="open-heart">
+                  ♡
+                </span>
+
+                <span>
+                  Open Invitation
+                </span>
               </button>
             )}
+
           </div>
+
+          {/* Door footer */}
 
           {!opening && (
             <div className="door-footer">
               TAP TO OPEN
             </div>
           )}
+
         </div>
       )}
 
-      {/* =========================
+      {/* =====================================================
           MAIN INVITATION
-      ========================= */}
+      ===================================================== */}
 
       {opened && (
-        <div className="invitation">
+        <main className="invitation">
 
-          {/* =========================
-              NAVBAR
-          ========================= */}
+          {/* =================================================
+              NAVIGATION
+          ================================================= */}
 
-          <header
+          <nav
             className={`navbar ${
-              scrolled ? "navbar-scrolled" : ""
+              scrolled
+                ? "navbar-scrolled"
+                : ""
             }`}
           >
-            <div
-              className="nav-logo"
-              onClick={() => scrollToSection("home")}
-            >
-              V <span>&amp;</span> R
+
+            <div className="nav-logo">
+              V <span>&</span> R
             </div>
 
-            <nav className="nav-links">
-              <button onClick={() => scrollToSection("home")}>
+            <div className="nav-links">
+
+              <button
+                onClick={() =>
+                  scrollToSection("home")
+                }
+              >
                 Home
               </button>
 
-              <button onClick={() => scrollToSection("story")}>
-                Story
+              <button
+                onClick={() =>
+                  scrollToSection("story")
+                }
+              >
+                Our Story
               </button>
 
-              <button onClick={() => scrollToSection("events")}>
+              <button
+                onClick={() =>
+                  scrollToSection("events")
+                }
+              >
                 Events
               </button>
 
-              <button onClick={() => scrollToSection("gallery")}>
+              <button
+                onClick={() =>
+                  scrollToSection("gallery")
+                }
+              >
                 Gallery
               </button>
 
-              <button onClick={() => scrollToSection("venue")}>
+              <button
+                onClick={() =>
+                  scrollToSection("venue")
+                }
+              >
                 Venue
               </button>
 
-              <button onClick={() => scrollToSection("rsvp")}>
+              <button
+                onClick={() =>
+                  scrollToSection("rsvp")
+                }
+              >
                 RSVP
               </button>
-            </nav>
+
+            </div>
 
             <button
-              className="nav-music"
+              className="mobile-music"
               onClick={toggleMusic}
+              aria-label="Toggle music"
             >
-              {musicPlaying ? "♫" : "♪"}
+              {musicPlaying
+                ? "♫"
+                : "♪"}
             </button>
-          </header>
 
-          {/* =========================
+          </nav>
+
+          {/* =================================================
               HERO
-          ========================= */}
+          ================================================= */}
 
-          <section id="home" className="hero">
+          <section
+            id="home"
+            className="hero-section"
+          >
 
-            <div className="hero-background" />
+            <div className="hero-background">
+
+              <img
+                src={`${BASE_URL}images/couple-1.jpeg`}
+                alt="Vignesh and Ramya"
+              />
+
+            </div>
 
             <div className="hero-overlay" />
 
-            <div className="hero-content">
+            <div className="hero-content reveal">
 
-              <div className="hero-eyebrow">
+              <div className="hero-small">
                 TOGETHER WITH THEIR FAMILIES
               </div>
 
-              <div className="hero-small-line">
+              <div className="hero-ornament">
                 ✦
               </div>
 
-              {/* IMPORTANT:
-                  Old Great Vibes font retained
-                  Names centered vertically
-              */}
+              <p className="hero-invite">
+                We joyfully invite you to celebrate
+              </p>
 
-              <h1 className="hero-title">
-
-                <span className="hero-name hero-vignesh">
-                  Vignesh
-                </span>
-
-                <span className="hero-ampersand">
-                  &amp;
-                </span>
-
-                <span className="hero-name hero-ramya">
-                  Ramya
-                </span>
-
+              <h1 className="hero-title animate-text">
+                Vignesh & Ramya
               </h1>
 
-              <div className="hero-date">
-                14 · 02 · 2027
+              <div className="hero-line">
+
+                <span />
+
+                <div>
+                  ♥
+                </div>
+
+                <span />
+
               </div>
 
-              <div className="hero-location">
-                Madurai, Tamil Nadu
-              </div>
+              <p className="hero-date">
+                14 FEBRUARY 2027
+              </p>
+
+              <p className="hero-location">
+                Madurai · Tamil Nadu
+              </p>
 
               <button
-                className="hero-scroll-button"
-                onClick={() => scrollToSection("countdown")}
+                className="primary-button"
+                onClick={() =>
+                  scrollToSection("events")
+                }
               >
-                <span>SCROLL TO EXPLORE</span>
-                <span className="scroll-arrow">↓</span>
+                View Wedding Details
               </button>
 
             </div>
+
+            <div className="scroll-indicator">
+
+              <span>
+                SCROLL
+              </span>
+
+              <div />
+
+            </div>
+
           </section>
 
-          {/* =========================
+          {/* =================================================
               COUNTDOWN
-          ========================= */}
+          ================================================= */}
 
-          <section
-            id="countdown"
-            className="countdown-section section"
-          >
-            <div className="section-heading reveal">
+          <section className="countdown-section">
+
+            <div className="section-container reveal">
 
               <div className="section-kicker">
-                THE COUNTDOWN
+                THE COUNTDOWN BEGINS
               </div>
 
-              <h2>
+              <h2 className="section-title">
                 Until We Say
-                <span>I Do</span>
+                <span>
+                  I Do
+                </span>
               </h2>
 
-              <div className="gold-line">
-                <span>✦</span>
+              <div className="countdown">
+
+                <div className="count-box">
+
+                  <strong>
+                    {String(
+                      timeLeft.days
+                    ).padStart(2, "0")}
+                  </strong>
+
+                  <span>
+                    DAYS
+                  </span>
+
+                </div>
+
+                <div className="count-separator">
+                  :
+                </div>
+
+                <div className="count-box">
+
+                  <strong>
+                    {String(
+                      timeLeft.hours
+                    ).padStart(2, "0")}
+                  </strong>
+
+                  <span>
+                    HOURS
+                  </span>
+
+                </div>
+
+                <div className="count-separator">
+                  :
+                </div>
+
+                <div className="count-box">
+
+                  <strong>
+                    {String(
+                      timeLeft.minutes
+                    ).padStart(2, "0")}
+                  </strong>
+
+                  <span>
+                    MINUTES
+                  </span>
+
+                </div>
+
+                <div className="count-separator">
+                  :
+                </div>
+
+                <div className="count-box">
+
+                  <strong>
+                    {String(
+                      timeLeft.seconds
+                    ).padStart(2, "0")}
+                  </strong>
+
+                  <span>
+                    SECONDS
+                  </span>
+
+                </div>
+
               </div>
 
             </div>
 
-            <div className="countdown-grid reveal">
-
-              <div className="countdown-box">
-                <strong>{countdown.days}</strong>
-                <span>Days</span>
-              </div>
-
-              <div className="countdown-box">
-                <strong>
-                  {String(countdown.hours).padStart(2, "0")}
-                </strong>
-                <span>Hours</span>
-              </div>
-
-              <div className="countdown-box">
-                <strong>
-                  {String(countdown.minutes).padStart(2, "0")}
-                </strong>
-                <span>Minutes</span>
-              </div>
-
-              <div className="countdown-box">
-                <strong>
-                  {String(countdown.seconds).padStart(2, "0")}
-                </strong>
-                <span>Seconds</span>
-              </div>
-
-            </div>
           </section>
 
-          {/* =========================
+          {/* =================================================
               STORY
-          ========================= */}
+          ================================================= */}
 
-          <section id="story" className="story-section section">
+          <section
+            id="story"
+            className="story-section"
+          >
 
-            <div className="story-container">
+            <div className="section-container">
 
-              <div className="story-image reveal">
-                <img
-                  src={`${BASE_URL}images/couple-1.jpeg`}
-                  alt="Vignesh and Ramya"
-                />
+              <div className="story-grid">
+
+                <div className="story-image reveal">
+
+                  <div className="image-frame">
+
+                    <img
+                      src={`${BASE_URL}images/couple-2.jpeg`}
+                      alt="Vignesh and Ramya"
+                    />
+
+                  </div>
+
+                </div>
+
+                <div className="story-content reveal">
+
+                  <div className="section-kicker">
+                    OUR STORY
+                  </div>
+
+                  <h2 className="section-title">
+                    Two Hearts.
+                    <span>
+                      One Beautiful Journey.
+                    </span>
+                  </h2>
+
+                  <div className="gold-line" />
+
+                  <p>
+                    Some stories are written in
+                    books. Ours was written in
+                    countless little moments,
+                    smiles, conversations and
+                    memories.
+                  </p>
+
+                  <p>
+                    From the first hello to the
+                    moments that made us realize
+                    we wanted to spend our lives
+                    together, every chapter has
+                    brought us closer.
+                  </p>
+
+                  <p className="story-signature">
+                    With love,
+                    <br />
+
+                    <strong>
+                      Vignesh & Ramya
+                    </strong>
+                  </p>
+
+                </div>
+
               </div>
 
-              <div className="story-content reveal">
+            </div>
+
+          </section>
+
+          {/* =================================================
+              EVENTS
+          ================================================= */}
+
+          <section
+            id="events"
+            className="events-section"
+          >
+
+            <div className="section-container">
+
+              <div className="section-header reveal">
 
                 <div className="section-kicker">
-                  OUR STORY
+                  SAVE THE DATE
                 </div>
 
-                <h2>
-                  Two Hearts.
-                  <span>One Beautiful Journey.</span>
+                <h2 className="section-title">
+                  Wedding
+                  <span>
+                    Celebrations
+                  </span>
                 </h2>
 
-                <div className="gold-line left">
-                  <span>✦</span>
+                <p>
+                  Join us as we begin this
+                  beautiful new chapter together.
+                </p>
+
+              </div>
+
+              <div className="events-grid">
+
+                {/* Reception */}
+
+                <article className="event-card reveal">
+
+                  <div className="event-number">
+                    01
+                  </div>
+
+                  <div className="event-icon">
+                    ✦
+                  </div>
+
+                  <div className="event-day">
+                    SATURDAY
+                  </div>
+
+                  <h3>
+                    Wedding Reception
+                  </h3>
+
+                  <div className="event-date">
+                    13 FEBRUARY 2027
+                  </div>
+
+                  <p>
+                    06:00 PM onwards
+                  </p>
+
+                  <div className="event-location">
+                    Madurai
+                  </div>
+
+                </article>
+
+                {/* Wedding */}
+
+                <article className="event-card featured reveal">
+
+                  <div className="event-number">
+                    02
+                  </div>
+
+                  <div className="event-icon">
+                    ♡
+                  </div>
+
+                  <div className="event-day">
+                    SUNDAY
+                  </div>
+
+                  <h3>
+                    Wedding Ceremony
+                  </h3>
+
+                  <div className="event-date">
+                    14 FEBRUARY 2027
+                  </div>
+
+                  <p>
+                    09:00 AM onwards
+                  </p>
+
+                  <div className="event-location">
+                    Madurai
+                  </div>
+
+                </article>
+
+                {/* Lunch */}
+
+                <article className="event-card reveal">
+
+                  <div className="event-number">
+                    03
+                  </div>
+
+                  <div className="event-icon">
+                    ✧
+                  </div>
+
+                  <div className="event-day">
+                    SUNDAY
+                  </div>
+
+                  <h3>
+                    Wedding Lunch
+                  </h3>
+
+                  <div className="event-date">
+                    14 FEBRUARY 2027
+                  </div>
+
+                  <p>
+                    12:30 PM onwards
+                  </p>
+
+                  <div className="event-location">
+                    Madurai
+                  </div>
+
+                </article>
+
+              </div>
+
+            </div>
+
+          </section>
+
+          {/* =================================================
+              GALLERY
+          ================================================= */}
+
+          <section
+            id="gallery"
+            className="gallery-section"
+          >
+
+            <div className="section-container">
+
+              <div className="section-header reveal">
+
+                <div className="section-kicker">
+                  MEMORIES
                 </div>
 
-                <p>
-                  Some stories begin unexpectedly, but the
-                  most beautiful ones become a journey of
-                  love, laughter and togetherness.
-                </p>
+                <h2 className="section-title">
+                  Moments
+                  <span>
+                    We Treasure
+                  </span>
+                </h2>
 
-                <p>
-                  We are grateful for every moment that
-                  brought us here and excited to begin
-                  this beautiful new chapter together.
-                </p>
+              </div>
 
-                <div className="story-signature">
-                  Vignesh &amp; Ramya
+              <div className="gallery-grid">
+
+                <div className="gallery-item large reveal">
+
+                  <img
+                    src={`${BASE_URL}images/couple-3.jpeg`}
+                    alt="Vignesh and Ramya"
+                  />
+
+                </div>
+
+                <div className="gallery-item reveal">
+
+                  <img
+                    src={`${BASE_URL}images/couple-4.jpeg`}
+                    alt="Vignesh and Ramya"
+                  />
+
+                </div>
+
+                <div className="gallery-item reveal">
+
+                  <img
+                    src={`${BASE_URL}images/couple-5.jpg`}
+                    alt="Vignesh and Ramya"
+                  />
+
+                </div>
+
+                <div className="gallery-item reveal">
+
+                  <img
+                    src={`${BASE_URL}images/couple-6.jpeg`}
+                    alt="Vignesh and Ramya"
+                  />
+
+                </div>
+
+                <div className="gallery-item large reveal">
+
+                  <img
+                    src={`${BASE_URL}images/couple-8.jpeg`}
+                    alt="Vignesh and Ramya"
+                  />
+
                 </div>
 
               </div>
 
             </div>
+
           </section>
 
-          {/* =========================
-              EVENTS
-          ========================= */}
+          {/* =================================================
+              VENUE
+          ================================================= */}
 
-          <section id="events" className="events-section section">
+          <section
+            id="venue"
+            className="venue-section"
+          >
 
-            <div className="section-heading reveal">
+            <div className="venue-background">
+
+              <img
+                src={`${BASE_URL}images/venue.jpeg`}
+                alt="Wedding venue"
+              />
+
+            </div>
+
+            <div className="venue-overlay" />
+
+            <div className="venue-content reveal">
 
               <div className="section-kicker">
                 JOIN US
               </div>
 
-              <h2>
-                Wedding
-                <span>Celebrations</span>
+              <h2 className="section-title">
+                The
+                <span>
+                  Venue
+                </span>
               </h2>
 
-              <div className="gold-line">
-                <span>✦</span>
-              </div>
+              <div className="venue-card">
 
-            </div>
-
-            <div className="events-grid">
-
-              <div className="event-card reveal">
-
-                <div className="event-icon">
-                  ♡
-                </div>
-
-                <div className="event-date">
-                  13 FEBRUARY 2027
-                </div>
-
-                <h3>Reception</h3>
-
-                <div className="event-time">
-                  6:00 PM onwards
-                </div>
-
-                <p>
-                  An evening filled with joy,
-                  laughter and beautiful memories.
-                </p>
-
-                <div className="event-location">
-                  Madurai, Tamil Nadu
-                </div>
-
-              </div>
-
-              <div className="event-card featured reveal">
-
-                <div className="event-icon">
-                  ✦
-                </div>
-
-                <div className="event-date">
-                  14 FEBRUARY 2027
-                </div>
-
-                <h3>Wedding</h3>
-
-                <div className="event-time">
-                  9:00 AM onwards
-                </div>
-
-                <p>
-                  Join us as we begin our forever
-                  surrounded by our loved ones.
-                </p>
-
-                <div className="event-location">
-                  Madurai, Tamil Nadu
-                </div>
-
-              </div>
-
-            </div>
-          </section>
-
-          {/* =========================
-              GALLERY
-          ========================= */}
-
-          <section id="gallery" className="gallery-section section">
-
-            <div className="section-heading reveal">
-
-              <div className="section-kicker">
-                MEMORIES
-              </div>
-
-              <h2>
-                Moments
-                <span>To Remember</span>
-              </h2>
-
-              <div className="gold-line">
-                <span>✦</span>
-              </div>
-
-            </div>
-
-            <div className="gallery-grid">
-
-              {[
-                "couple-1.jpeg",
-                "couple-2.jpeg",
-                "couple-3.jpeg",
-                "couple-4.jpeg",
-                "couple-5.jpg",
-                "couple-6.jpeg",
-                "couple-8.jpeg",
-              ].map((image, index) => (
-                <div
-                  className={`gallery-item gallery-${index + 1} reveal`}
-                  key={image}
-                >
-                  <img
-                    src={`${BASE_URL}images/${image}`}
-                    alt={`Vignesh and Ramya memory ${index + 1}`}
-                  />
-                </div>
-              ))}
-
-            </div>
-          </section>
-
-          {/* =========================
-              VENUE
-          ========================= */}
-
-          <section id="venue" className="venue-section section">
-
-            <div className="venue-container">
-
-              <div className="venue-image reveal">
-
-                <img
-                  src={`${BASE_URL}images/venue.jpeg`}
-                  alt="Wedding venue"
-                />
-
-              </div>
-
-              <div className="venue-content reveal">
-
-                <div className="section-kicker">
-                  THE VENUE
-                </div>
-
-                <h2>
-                  Celebrate
-                  <span>With Us</span>
-                </h2>
-
-                <div className="gold-line left">
-                  <span>✦</span>
+                <div className="venue-icon">
+                  ♧
                 </div>
 
                 <h3>
-                  Wedding Celebration
+                  Wedding Venue
                 </h3>
 
                 <p>
-                  Madurai, Tamil Nadu
-                </p>
-
-                <p>
-                  We would love to celebrate this
-                  special day surrounded by the people
-                  who mean the most to us.
+                  Madurai
+                  <br />
+                  Tamil Nadu, India
                 </p>
 
                 <button
-                  className="gold-button"
+                  className="primary-button"
                   onClick={openMap}
                 >
-                  VIEW ON MAP
+                  View on Google Maps
                 </button>
 
               </div>
 
             </div>
+
           </section>
 
-          {/* =========================
+          {/* =================================================
               RSVP
-          ========================= */}
+          ================================================= */}
 
-          <section id="rsvp" className="rsvp-section section">
+          <section
+            id="rsvp"
+            className="rsvp-section"
+          >
 
-            <div className="rsvp-card reveal">
+            <div className="section-container">
 
-              <div className="section-kicker">
-                RSVP
+              <div className="rsvp-card reveal">
+
+                <div className="section-kicker">
+                  YOUR PRESENCE MATTERS
+                </div>
+
+                <h2 className="section-title">
+                  Will You
+                  <span>
+                    Join Us?
+                  </span>
+                </h2>
+
+                <p>
+                  Your presence would make our
+                  celebration even more special.
+                </p>
+
+                <div className="rsvp-heart">
+                  ♥
+                </div>
+
+                <a
+                  className="primary-button"
+                  href="mailto:your-email@example.com?subject=Wedding RSVP - Vignesh & Ramya"
+                >
+                  RSVP NOW
+                </a>
+
               </div>
-
-              <h2>
-                Will You
-                <span>Join Us?</span>
-              </h2>
-
-              <div className="gold-line">
-                <span>✦</span>
-              </div>
-
-              <p>
-                Your presence would make our celebration
-                even more meaningful.
-              </p>
-
-              <button className="gold-button">
-                RSVP NOW
-              </button>
 
             </div>
+
           </section>
 
-          {/* =========================
+          {/* =================================================
               FOOTER
-          ========================= */}
+          ================================================= */}
 
           <footer className="footer">
 
             <div className="footer-monogram">
-              V <span>&amp;</span> R
+              V <span>&</span> R
             </div>
 
-            <div className="footer-names">
-              Vignesh &amp; Ramya
+            <h2>
+              Vignesh & Ramya
+            </h2>
+
+            <p>
+              Forever begins with us.
+            </p>
+
+            <div className="footer-line">
+              ✦
             </div>
 
             <div className="footer-date">
               14 · 02 · 2027
             </div>
 
-            <div className="footer-line">
-              <span>✦</span>
-            </div>
-
-            <p>
-              With love, laughter and forever.
-            </p>
-
           </footer>
 
-          {/* =========================
-              FLOATING MUSIC
-          ========================= */}
+          {/* =================================================
+              FLOATING MUSIC BUTTON
+          ================================================= */}
 
           <button
-            className={`floating-music ${
-              musicPlaying ? "playing" : ""
+            className={`music-button ${
+              musicPlaying
+                ? "playing"
+                : ""
             }`}
             onClick={toggleMusic}
-            aria-label="Toggle wedding music"
+            aria-label="Toggle music"
           >
-            {musicPlaying ? "♫" : "♪"}
+
+            <span className="music-disc">
+              {musicPlaying
+                ? "♫"
+                : "♪"}
+            </span>
+
           </button>
 
-        </div>
+        </main>
       )}
-    </>
+
+    </div>
   );
 }
 
