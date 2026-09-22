@@ -130,7 +130,6 @@ function App() {
 
     setTimeout(() => {
       setShowDoor(false);
-
       setTimeout(() => {
         setOpened(true);
        audioRef.current.play();
